@@ -66,3 +66,4 @@ str(df) #just checkin
 #Now we have cleaned out the data.
 
 write.csv(df, gsub("PreETL_", "", file_path), row.names=FALSE, na = "") #write the csv. removing PreETL to rename file. 
+
