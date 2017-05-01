@@ -187,15 +187,16 @@ $(document).ready(function () {
 <div id="introduction" class="section level1">
 <h1><strong>Introduction</strong></h1>
 <p>This project shows interesting findings about the correlation between happiness (rated on a scale from 1-10) and its relationship between various employment sectors in countries around the world.</p>
-<p>Our data was supplied from the <a href="http://www.ilo.org/global/research/global-reports/global-employment-trends/2014/WCMS_234879/lang--en/index.htm">International Labour Organization</a> and <a href="https://www.kaggle.com/unsdsn/world-happiness">Kaggle</a>.</p>
+<p>Our data was supplied from the <a href="http://www.ilo.org/global/research/global-reports/global-employment-trends/2014/WCMS_234879/lang--en/index.htm">International Labour Organization</a>, <a href="https://www.kaggle.com/unsdsn/world-happiness">Kaggle</a>, <a href="http://www.un.org/en/development/desa/policy/wesp/wesp_current/2014wesp_country_classification.pdf">UN</a>, <a href="https://developers.google.com/public-data/docs/canonical/countries_csv">Google Developers</a>, and <a href="http://data.worldbank.org/indicator/SP.POP.TOTL">World Bank</a></p>
 </div>
 <div id="r-configuration" class="section level1">
 <h1><strong>R Configuration</strong></h1>
 <p>Below we display our sessionInfo().</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc2Vzc2lvbkluZm8oKVxuYGBgXG5gYGAifQ== -->
-<p><code>r</code>r sessionInfo()</p>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuYGBgclxuc2Vzc2lvbkluZm8oKVxuYGBgXG5gYGBcbmBgYCJ9 -->
+<p><code>r</code>r</p>
+<pre class="r"><code>sessionInfo()</code></pre>
 <pre><code></code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
@@ -205,13 +206,16 @@ $(document).ready(function () {
 <h1><strong>The Data</strong></h1>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc291cmNlKFwiLi4vMDEgRGF0YS9wcmVFVExfaGFwcGluZXNzX2pvYnMuUlwiKVxuYGBgIn0= -->
+<pre class="r"><code>source(&quot;../01 Data/preETL_happiness_jobs.R&quot;)</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p><strong>The Visualizations</strong> …</p>
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiPGNlbnRlcj48Yj5IYXBwaW5lc3MgQXJvdW5kIHRoZSBXb3JsZDwvYj48L2NlbnRlcj4iCmF1dGhvcjogIjxjZW50ZXI+PGI+THUsIEJyYXVjaGxlLCBLb2xpbmtvPC9iPjwvY2VudGVyPiIKb3V0cHV0OgogIGh0bWxfbm90ZWJvb2s6CiAgICB0b2M6IHllcwogIGh0bWxfZG9jdW1lbnQ6CiAgICBzZWxmX2NvbnRhaW5lZDogbm8KICAgIHRvYzogeWVzCi0tLQoKIyoqSW50cm9kdWN0aW9uKioKVGhpcyBwcm9qZWN0IHNob3dzIGludGVyZXN0aW5nIGZpbmRpbmdzIGFib3V0IHRoZSBjb3JyZWxhdGlvbiBiZXR3ZWVuIGhhcHBpbmVzcyAocmF0ZWQgb24gYSBzY2FsZSBmcm9tIDEtMTApIGFuZCBpdHMgcmVsYXRpb25zaGlwIGJldHdlZW4gdmFyaW91cyBlbXBsb3ltZW50IHNlY3RvcnMgaW4gY291bnRyaWVzIGFyb3VuZCB0aGUgd29ybGQuIAoKT3VyIGRhdGEgd2FzIHN1cHBsaWVkIGZyb20gdGhlIFtJbnRlcm5hdGlvbmFsIExhYm91ciBPcmdhbml6YXRpb25dKGh0dHA6Ly93d3cuaWxvLm9yZy9nbG9iYWwvcmVzZWFyY2gvZ2xvYmFsLXJlcG9ydHMvZ2xvYmFsLWVtcGxveW1lbnQtdHJlbmRzLzIwMTQvV0NNU18yMzQ4NzkvbGFuZy0tZW4vaW5kZXguaHRtKSBhbmQgW0thZ2dsZV0oaHR0cHM6Ly93d3cua2FnZ2xlLmNvbS91bnNkc24vd29ybGQtaGFwcGluZXNzKS4KCiMqKlIgQ29uZmlndXJhdGlvbioqCkJlbG93IHdlIGRpc3BsYXkgb3VyIHNlc3Npb25JbmZvKCkuCgpgYGB7ciBzZXNzaW9uSW5mb30Kc2Vzc2lvbkluZm8oKQpgYGAKCiMqKlRoZSBEYXRhKioKCmBgYHtyfQpzb3VyY2UoIi4uLzAxIERhdGEvcHJlRVRMX2hhcHBpbmVzc19qb2JzLlIiKQpgYGAKCioqVGhlIFZpc3VhbGl6YXRpb25zKioKLi4uCgoK</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIjxjZW50ZXI+PGI+SGFwcGluZXNzIEFyb3VuZCB0aGUgV29ybGQ8L2I+PC9jZW50ZXI+Ig0KYXV0aG9yOiAiPGNlbnRlcj48Yj5MdSwgQnJhdWNobGUsIEtvbGlua288L2I+PC9jZW50ZXI+Ig0Kb3V0cHV0Og0KICBodG1sX25vdGVib29rOg0KICAgIHRvYzogeWVzDQogIGh0bWxfZG9jdW1lbnQ6DQogICAgc2VsZl9jb250YWluZWQ6IG5vDQogICAgdG9jOiB5ZXMNCi0tLQ0KDQojKipJbnRyb2R1Y3Rpb24qKg0KVGhpcyBwcm9qZWN0IHNob3dzIGludGVyZXN0aW5nIGZpbmRpbmdzIGFib3V0IHRoZSBjb3JyZWxhdGlvbiBiZXR3ZWVuIGhhcHBpbmVzcyAocmF0ZWQgb24gYSBzY2FsZSBmcm9tIDEtMTApIGFuZCBpdHMgcmVsYXRpb25zaGlwIGJldHdlZW4gdmFyaW91cyBlbXBsb3ltZW50IHNlY3RvcnMgaW4gY291bnRyaWVzIGFyb3VuZCB0aGUgd29ybGQuIA0KDQpPdXIgZGF0YSB3YXMgc3VwcGxpZWQgZnJvbSB0aGUgW0ludGVybmF0aW9uYWwgTGFib3VyIE9yZ2FuaXphdGlvbl0oaHR0cDovL3d3dy5pbG8ub3JnL2dsb2JhbC9yZXNlYXJjaC9nbG9iYWwtcmVwb3J0cy9nbG9iYWwtZW1wbG95bWVudC10cmVuZHMvMjAxNC9XQ01TXzIzNDg3OS9sYW5nLS1lbi9pbmRleC5odG0pLCBbS2FnZ2xlXShodHRwczovL3d3dy5rYWdnbGUuY29tL3Vuc2Rzbi93b3JsZC1oYXBwaW5lc3MpLA0KW1VOXShodHRwOi8vd3d3LnVuLm9yZy9lbi9kZXZlbG9wbWVudC9kZXNhL3BvbGljeS93ZXNwL3dlc3BfY3VycmVudC8yMDE0d2VzcF9jb3VudHJ5X2NsYXNzaWZpY2F0aW9uLnBkZiksIFtHb29nbGUgRGV2ZWxvcGVyc10oaHR0cHM6Ly9kZXZlbG9wZXJzLmdvb2dsZS5jb20vcHVibGljLWRhdGEvZG9jcy9jYW5vbmljYWwvY291bnRyaWVzX2NzdiksIGFuZCBbV29ybGQgQmFua10oaHR0cDovL2RhdGEud29ybGRiYW5rLm9yZy9pbmRpY2F0b3IvU1AuUE9QLlRPVEwpDQoNCiMqKlIgQ29uZmlndXJhdGlvbioqDQpCZWxvdyB3ZSBkaXNwbGF5IG91ciBzZXNzaW9uSW5mbygpLg0KDQpgYGB7ciBzZXNzaW9uSW5mb30NCnNlc3Npb25JbmZvKCkNCmBgYA0KDQojKipUaGUgRGF0YSoqDQoNCmBgYHtyfQ0Kc291cmNlKCIuLi8wMSBEYXRhL3ByZUVUTF9oYXBwaW5lc3Nfam9icy5SIikNCmBgYA0KDQoqKlRoZSBWaXN1YWxpemF0aW9ucyoqDQouLi4NCg0KDQo=</div>
 
 
 
