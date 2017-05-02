@@ -19,15 +19,20 @@ server <- function(input, output) {
   
   color <- colorFactor(rainbow(2, s = 1, v = 1, start = 0, end = .3), df$Happiness.Score)
   
+  reg = c("Australia and New Zealand", "Central and Eastern Europe", "Eastern Asia", "Latin America and Caribbean", "Middle East and Northern Africa", "Middle East and Northern Africa", "North America", "Southeastern Asia", "Southern Asia", "Sub-Saharan Africa", "Western Europe")
+  
   output$map <- renderLeaflet({
     leaflet(df) %>%
-      setView(lng = -98.35, lat = 39.5, zoom = 4)%>% 
+      setView(lng = 0, lat = 0, zoom = 2)%>% 
       addTiles() %>% 
-      addProviderTiles("CartoDB.Positron", options = providerTileOptions(noWrap = FALSE)) %>%
+      addProviderTiles("CartoDB.Positron", options = providerTileOptions(noWrap = TRUE)) %>%
       addCircleMarkers(~longitude,
-                 ~latitude, radius=~Happiness.Score*1.5, # Total count
-                 stroke=FALSE, # Circle stroke
-                 fillOpacity=0.5, color=~color(df$Happiness.Score), popup = ~paste(as.character(df$name), "| HS: ", as.character(df$Happiness.Score)))
+                 ~latitude, 
+                 label = as.character(df$name),
+                 labelOptions = labelOptions(noHide = F, direction = 'auto', textOnly=FALSE, style = list('border-color' = 'rgba(0, 0, 0, 0)')), 
+                 radius=~Happiness.Score*1.5, 
+                 stroke=FALSE, 
+                 fillOpacity=0.5, color=~color(df$Happiness.Score), popup = ~paste(sep = "<br/>", "Happiness Score: ", as.character(df$Happiness.Score), " Happiness Rank: ", as.character(df$Happiness.Rank)))
     
   })
 }

@@ -19,7 +19,7 @@ dashboardPage(
   dashboardBody(
     tabItem(tabName = "map",
             tabsetPanel(
-              tabPanel("map", leafletOutput("map", height=900) )
+              tabPanel("map", leafletOutput("map", height=500) )
             )
     )
   )
