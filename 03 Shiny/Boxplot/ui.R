@@ -10,8 +10,10 @@ tabItem(tabName = "boxplot",
                    DT::dataTableOutput("boxplotData1")
           ),
           tabPanel("Simple Box Plot", 
-                   sliderInput("boxSalesRange1", "Happiness Range:", # See https://shiny.rstudio.com/articles/sliders.html
-                               min = min(df$Happiness.Score), max = max(df$Happiness.Score), 
-                               value = c(min(globals$Sales), max(globals$Sales))),
+                   sliderInput("boxSalesRange1", "Sales Range:", # See https://shiny.rstudio.com/articles/sliders.html
+                               min = min(df2$Happiness.Score), max = max(df2$Happiness.Score), 
+                               value = c(min(df2$Happiness.Score), max(df2$Happiness.Score))),
+                   
                    plotlyOutput("boxplotPlot1", height=500))
         )
+)
