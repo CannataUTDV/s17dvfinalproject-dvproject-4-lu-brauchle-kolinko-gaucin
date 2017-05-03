@@ -64,37 +64,43 @@ source("../01 Data/R_ETL_GET_status_sector_2012.R")
 <center>![vis2](../03 Visualizations/Scatterplot_Shiny.png)</center>
 These visualizations shows that as GDP increases, so does happiness. We also get an indication of the trend of each region in happiness; for example, Australia and New Zealand have a pretty horizontal line. As only two countries are involved, it shows that the disaparity between the two is not high; GDP and Happiness are quite similar for Australia and New Zealand. We also see clustering of countries in the Sub-Saharan Africa region with low happiness scores and low GDPs. Western Europe is on the opposite end of this spectrum with high happiness scores and high GDPs, though there is a fairly large disparity between the happiest country in Europe and the least happy based on the trend line. 
 
+##*Histogram*
+<b>Shiny Version</b>
+<center>![vis3](../03 Visualizations/Histogram_Shiny.png)</center>
+This histogram shows a bimodal distribution with peaks around  Happiness Scores of 4.7 and 6. At a peak of around 4.7, Sub-Saharan Africa has the most countries within this bin; at a peak of 6, there is a pretty even split between countries in Latin America and Caribbean. 
+
+It was not possible for us to create a histogram like above in Tableau. 
 
 ##*Boxplot*
 <b>Tableau Version</b>
-<center>![vis3](../03 Visualizations/Boxplot.png)</center>
+<center>![vis4](../03 Visualizations/Boxplot.png)</center>
 <b>Shiny Version</b>
-<center>![vis1](../03 Visualizations/Boxplot_Shiny.png)</center>
+<center>![vis5](../03 Visualizations/Boxplot_Shiny.png)</center>
 
 These visualizations show that Sub-Saharan Africa  has both the largest percentage of people working in the Agriculture sector and the highest variance of those working in this sector. High income regions such as North America, Western Europe, and Australia and New Zealand have the least variance within each group. Also, the sector with the largest percentage of people working within it for these countries is the Services sector with very few working in the Agriculture sector. The Middle East and Africa has large variance within each group.
 
 ##*Barchart*
 <b>Tableau Version</b>
-<center>![vis3](../03 Visualizations/barchart1.png)</center>
+<center>![vis6](../03 Visualizations/barchart1.png)</center>
 <b>Shiny Version</b>
-<center>![vis1](../03 Visualizations/barchart_shiny.png)</center>
+<center>![vis7](../03 Visualizations/barchart_shiny.png)</center>
 
 
 The barcharts show us that Sub-Saharan Africa is the least happy within each Income Class. Overall, Australia and New Zealand are the happiest. The line shows us the average happiness score of the region. Latin America and the Caribbean are the happiest for both the Upper Middle Income and Lower Middle Income. 
 
 ##*Crosstabs*
 <b>Tableau Version</b>
-<center>![vis3](../03 Visualizations/crosstab2.png)</center>
+<center>![vis8](../03 Visualizations/crosstab2.png)</center>
 <b>Shiny Version</b>
-<center>![vis1](../03 Visualizations/crosstb_shiny.png)</center>
+<center>![vis9](../03 Visualizations/crosstb_shiny.png)</center>
 
 In this visualization, things are a little reversed; as we are averaging the happiness rank, a higher rank means that a country/region is less happy on a whole. Each number is the average happiness of the countries who are in this region and whose main sector it is either industry, agriculture, or services. The sector with the lowest happiness score, on average, are the companies whose largest sector is agriculture.  The only region that has a country whose main sector is Industry is the Middle East/North Africa. 
 
 ##*Map*
 <b>Tableau Version</b>
-<center>![vis3](../03 Visualizations/Map.png)</center>
+<center>![vis10](../03 Visualizations/Map.png)</center>
 <b>Shiny Version</b>
-<center>![vis1](../03 Visualizations/map_shiny.png)</center>
+<center>![vis11](../03 Visualizations/map_shiny.png)</center>
 
 The maps provide shows that the regions of Africa and parts of the Middle East, Eastern Europe, and SouthEastern Asia are the least happy. Northern Europe, most of South America, and North America are largely happy. In the Shiny app you can hover over each marker to find the country and then select the marker to view the country's happiness rank and score.
 

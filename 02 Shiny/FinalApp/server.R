@@ -240,5 +240,20 @@ server <- function(input, output) {
         theme(axis.text.x=element_text(angle=90, size=12, vjust=0.5)) + 
         theme(axis.text.y=element_text(size=12, hjust=0.5))
     })
+    # begin histogram tab 
+    dfh1 <- eventReactive(input$click10, {
+      df %>% select(Happiness.Score, Region)
+    })
+    
+    output$histogramData1 <- renderDataTable({DT::datatable(dfh1(), rownames = FALSE,
+                                                            extensions = list(Responsive = TRUE, 
+                                                                              FixedHeader = TRUE)
+    )
+    })
+    
+    output$histogramPlot1 <- renderPlot({ggplot(dfh1()) +
+        geom_histogram(aes(x=Happiness.Score, fill = Region)) +
+        theme(axis.text.x=element_text(angle=90, size=10, vjust=0.5))
+    })
   }
 

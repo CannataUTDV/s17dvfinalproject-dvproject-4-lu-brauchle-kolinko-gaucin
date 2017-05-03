@@ -14,6 +14,7 @@ dashboardPage(skin = "black",
     sidebarMenu(
       menuItem("Data", tabName = "getData", icon = icon("dashboard")),
       menuItem("Scatterplot", tabName = "Scatterplot", icon = icon("dashboard")),
+      menuItem("Histogram", tabName = "histogram", icon = icon("dashboard")),
       menuItem("Boxplot", tabName = "Bplot", icon = icon("dashboard")),
       menuItem("World Map", tabName = "Map", icon = icon("dashboard")),
      menuItem("Barcharts, Table Calculations", tabName = "barchart", icon = icon("dashboard")),
@@ -73,6 +74,18 @@ dashboardPage(skin = "black",
                   tabsetPanel(
                     tabPanel("World Map", leafletOutput("plot3", height=500) )
                   )
+      ),
+      tabItem(tabName = "histogram",
+              tabsetPanel(
+                tabPanel("Data",
+                         actionButton(inputId = "click10",  label = "To get data, click here"),
+                         hr(), # Add space after button.
+                         'Here is data for the "Histogram" tab',
+                         hr(),
+                         DT::dataTableOutput("histogramData1")
+                ),
+                tabPanel("Histogram", plotOutput("histogramPlot1", height = 800))
+              )
       ),
       
         #Begin Barchart tab content.
