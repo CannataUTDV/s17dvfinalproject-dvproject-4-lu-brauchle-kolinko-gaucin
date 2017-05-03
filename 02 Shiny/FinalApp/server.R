@@ -12,27 +12,16 @@ require(gridExtra)
 require(cowplot)
 require(plyr)
 
-#df <- data.frame(fromJSON(getURL(URLencode(gsub("\n", " ",'oraclerest.cs.utexas.edu:5000/rest/native/?query="select * from Chemical_Dependence"')),httpheader=c(DB='jdbc:data:world:sql:brauchlen:s-17-edv-project-4', USER='kolinkodm', PASS='eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcm9kLXVzZXItY2xpZW50OmtvbGlua29kbSIsImlzcyI6ImFnZW50OmtvbGlua29kbTo6Mzg4NTJlZWUtZDZhOS00NjFiLWI4YTgtYWZjNGRjYjA4YjhmIiwiaWF0IjoxNDg0NzE0NjE5LCJyb2xlIjpbInVzZXJfYXBpX3dyaXRlIiwidXNlcl9hcGlfcmVhZCJdLCJnZW5lcmFsLXB1cnBvc2UiOnRydWV9.VElhv7u_Pue0KH2VWN-6vbd4XvWqo0u9Ym1S7z-pSzlq_ClWOZiHpKDoMBO-U9cyVs9SZmFN2hdMJ2_yBYVwAg', MODE='native_mode', MODEL='model', returnDimensions = 'False', returnFor = 'JSON'), verbose = TRUE) ))
-
-df <- read.csv("https://query.data.world/s/1bf1rqx0f351otahiiji5vy6q",
-           header = T)
-
-df2 <- df %>% dplyr::mutate(ratio_agr = (Total.employment.in.agriculture..thousands.*1000/Population),ratio_ind =  (Total.employment.in.industry..thousands.*1000/Population), ratio_serv = (Total.employment.in.services..thousands.*1000/Population)) %>% dplyr::filter(Income.Class != '')
-
-tdf1 = df2 %>% dplyr::distinct(Region) %>% arrange(Region) %>% dplyr::rename(D = Region)
-tdf2 = df2 %>% dplyr::distinct(Region) %>% arrange(Region) %>% dplyr::rename(R = Region)
-regions = bind_cols(tdf1, tdf2)
-
-region_list <- as.list(regions$D, regions$R)
-region_list <- append(list("All" = "All"), region_list)
-region_list5 <- region_list
-
-names(df) <- gsub(" ", "_", names(df))
-names(df)
-
-#print(df)
-
 server <- function(input, output) {
+    
+    
+    tdf1 = df %>% dplyr::distinct(Region) %>% arrange(Region) %>% dplyr::rename(D = Region)
+    tdf2 = df %>% dplyr::distinct(Region) %>% arrange(Region) %>% dplyr::rename(R = Region)
+    regions = bind_cols(tdf1, tdf2)
+    
+    region_list <- as.list(regions$D, regions$R)
+    region_list <- append(list("All" = "All"), region_list)
+    region_list5 <- region_list
   
   #------------Begin Data------------
   output$table1 <- renderDataTable(df, options = list(scrollX = TRUE, 
@@ -80,7 +69,7 @@ server <- function(input, output) {
     if(input$selectedBoxplotRegions == 'All') region_list5 <- input$selectedBoxplotRegions
     else region_list5 <- append(list("Skip" = "Skip"), input$selectedBoxplotRegions)
     
-    df2 %>% dplyr::select(Happiness.Score, Income.Class, Region, ratio_agr, ratio_ind,ratio_serv) %>% dplyr::filter(Region %in% input$selectedBoxplotRegions | input$selectedBoxplotRegions == "All") # %>% View()
+    df %>% dplyr::select(Happiness.Score, Income.Class, Region, ratio_agr, ratio_ind,ratio_serv) %>% dplyr::filter(Region %in% input$selectedBoxplotRegions | input$selectedBoxplotRegions == "All") # %>% View()
     
   })
   
@@ -170,7 +159,6 @@ server <- function(input, output) {
     #------------End Map------------
   
   # -----------Begin Barchart----------
-  # server.R
   tdf1 = df %>% dplyr::distinct(Region) %>% arrange(Region) %>% dplyr::rename(D = Region)
   tdf2 = df %>% dplyr::distinct(Region) %>% arrange(Region) %>% dplyr::rename(R = Region)
   regions = bind_cols(tdf1, tdf2)

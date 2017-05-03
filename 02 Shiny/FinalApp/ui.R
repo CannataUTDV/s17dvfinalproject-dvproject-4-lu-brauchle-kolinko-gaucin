@@ -61,8 +61,8 @@ dashboardPage(skin = "black",
                 ),
                 tabPanel("Simple Box Plot", 
                          sliderInput("boxSalesRange1", "Happiness Range:", # See https://shiny.rstudio.com/articles/sliders.html
-                                     min = min(df2$Happiness.Score), max = max(df2$Happiness.Score), 
-                                     value = c(min(df2$Happiness.Score), max(df2$Happiness.Score))),
+                                     min = min(globals$Happiness.Score), max = max(globals$Happiness.Score), 
+                                     value = c(min(globals$Happiness.Score), max(globals$Happiness.Score))),
                          
                          plotlyOutput("boxplotPlot1", height=500))
               )
