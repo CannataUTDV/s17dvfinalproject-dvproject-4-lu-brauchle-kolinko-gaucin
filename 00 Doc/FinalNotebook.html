@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title></title>
+
+<script src="FinalNotebook_files/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="FinalNotebook_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="FinalNotebook_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="FinalNotebook_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="FinalNotebook_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="FinalNotebook_files/navigation-1.1/tabsets.js"></script>
+<link href="FinalNotebook_files/highlightjs-1.1/default.css" rel="stylesheet" />
+<script src="FinalNotebook_files/highlightjs-1.1/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore"><center>
+<b>Happiness Around the World</b>
+</center></h1>
+<h4 class="author"><em><center>
+<b>Lu, Brauchle, Kolinko</b>
+</center></em></h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#introduction"><strong>Introduction</strong></a></li>
+<li><a href="#the-data"><strong>The Data</strong></a></li>
+<li><a href="#the-visualizations"><strong>The Visualizations</strong></a><ul>
+<li><a href="#scatterplot"><em>Scatterplot</em></a></li>
+<li><a href="#boxplot"><em>Boxplot</em></a></li>
+<li><a href="#barchart"><em>Barchart</em></a></li>
+<li><a href="#crosstabs"><em>Crosstabs</em></a></li>
+<li><a href="#map"><em>Map</em></a></li>
+</ul></li>
+</ul>
+</div>
+
+<div id="introduction" class="section level1">
+<h1><strong>Introduction</strong></h1>
+<p>ShinyApp Link is <a href="https://mediocredog.shinyapps.io/FinalApp/">Here</a></p>
+<p>This project shows interesting findings about the correlation between happiness (rated on a scale from 1-10) and its relationship between various employment sectors in countries around the world.</p>
+<p>Our data was supplied from the <a href="http://www.ilo.org/global/research/global-reports/global-employment-trends/2014/WCMS_234879/lang--en/index.htm">International Labour Organization</a>, <a href="https://www.kaggle.com/unsdsn/world-happiness">Kaggle</a>, <a href="http://www.un.org/en/development/desa/policy/wesp/wesp_current/2014wesp_country_classification.pdf">UN</a>, <a href="https://developers.google.com/public-data/docs/canonical/countries_csv">Google Developers</a>, and <a href="http://data.worldbank.org/indicator/SP.POP.TOTL">World Bank</a></p>
+<p>The international Labour Organization website provided us the datasets for Employment by Sector and Status in Employment. Using the data.world query functions, we subset the data from the year 2012 for both of these and joined them together.</p>
+<p>Kaggle provided the World Happiness data. This dataset gives a rank by happiness for each country, the region in which the country is in, and a happiness score. The scores are based on the answer to a question asked in the Gallup World Poll. Quoting from Data.World, “This question, known as the Cantril ladder, asks respondents to think of a ladder with the best possible life for them being a 10 and the worst possible life being a 0 and to rate their own current lives on that scale.”</p>
+<p>We needed one more categorical variable but could not find any suitable datasets. The UN report on “Country Classification” gave a list of countries determined to be in a category of either: Low Income, Lower Middle Income, Upper Middle Income, High Income. There was not an easily downloadable CSV for this so we created one in Excel. This was not run through an ETL file as there was nothing to clean up as it was only two columns - Country and Income Class. We joined this dataset with the joined employment dataset.</p>
+<p>The Google Developers site provided the longitude and latitude data for each country; we then joined this dataset with the previously joined dataset from above.</p>
+<p>Finally, to make the data more readable and create a calculated field that calculates the percentage in each sector (Agriculture, Industry, and Service), we had to find the population data for each country. This came form the World Bank website. This dataset was, again, joined with the dataset that has all the other joins.</p>
+<p>Our final join was combining the dataset that had all of the above with the World Happiness datset. This was accomplished through an outer join, linking by Country name.</p>
+<p>All joins were completed in data.world, with one exception. We joined the World Happiness dataset with the large conglomeration above in Tableau as well.</p>
+<p>Below we display our sessionInfo().</p>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>## R version 3.3.2 (2016-10-31)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows 10 x64 (build 14393)
+## 
+## locale:
+## [1] LC_COLLATE=English_United States.1252 
+## [2] LC_CTYPE=English_United States.1252   
+## [3] LC_MONETARY=English_United States.1252
+## [4] LC_NUMERIC=C                          
+## [5] LC_TIME=English_United States.1252    
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## loaded via a namespace (and not attached):
+##  [1] backports_1.0.5 magrittr_1.5    rprojroot_1.2   tools_3.3.2    
+##  [5] htmltools_0.3.5 yaml_2.1.14     Rcpp_0.12.10    stringi_1.1.2  
+##  [9] rmarkdown_1.3   knitr_1.15.1    stringr_1.2.0   digest_0.6.11  
+## [13] evaluate_0.10</code></pre>
+</div>
+<div id="the-data" class="section level1">
+<h1><strong>The Data</strong></h1>
+<p><em>Cleaning Up World Happiness Dataset</em></p>
+<p>This data was not difficult to clean up and remained largey untouched.</p>
+<pre class="r"><code>source(&quot;../01 Data/R_ETL_World_Happiness.R&quot;)</code></pre>
+<pre><code>## Loading required package: readr</code></pre>
+<pre><code>## Warning: package &#39;readr&#39; was built under R version 3.3.3</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   Country = col_character(),
+##   Region = col_character(),
+##   `Happiness Rank` = col_integer(),
+##   `Happiness Score` = col_double(),
+##   `Standard Error` = col_double(),
+##   `Economy (GDP per Capita)` = col_double(),
+##   Family = col_double(),
+##   `Health (Life Expectancy)` = col_double(),
+##   Freedom = col_double(),
+##   `Trust (Government Corruption)` = col_double(),
+##   Generosity = col_double(),
+##   `Dystopia Residual` = col_double()
+## )</code></pre>
+<pre><code>## Classes &#39;tbl_df&#39;, &#39;tbl&#39; and &#39;data.frame&#39;:    158 obs. of  12 variables:
+##  $ Country                      : chr  &quot;Switzerland&quot; &quot;Iceland&quot; &quot;Denmark&quot; &quot;Norway&quot; ...
+##  $ Region                       : chr  &quot;Western Europe&quot; &quot;Western Europe&quot; &quot;Western Europe&quot; &quot;Western Europe&quot; ...
+##  $ Happiness Rank               : int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ Happiness Score              : num  7.59 7.56 7.53 7.52 7.43 ...
+##  $ Standard Error               : num  0.0341 0.0488 0.0333 0.0388 0.0355 ...
+##  $ Economy (GDP per Capita)     : num  1.4 1.3 1.33 1.46 1.33 ...
+##  $ Family                       : num  1.35 1.4 1.36 1.33 1.32 ...
+##  $ Health (Life Expectancy)     : num  0.941 0.948 0.875 0.885 0.906 ...
+##  $ Freedom                      : num  0.666 0.629 0.649 0.67 0.633 ...
+##  $ Trust (Government Corruption): num  0.42 0.141 0.484 0.365 0.33 ...
+##  $ Generosity                   : num  0.297 0.436 0.341 0.347 0.458 ...
+##  $ Dystopia Residual            : num  2.52 2.7 2.49 2.47 2.45 ...
+##  - attr(*, &quot;spec&quot;)=List of 2
+##   ..$ cols   :List of 12
+##   .. ..$ Country                      : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
+##   .. ..$ Region                       : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
+##   .. ..$ Happiness Rank               : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   .. ..$ Happiness Score              : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ Standard Error               : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ Economy (GDP per Capita)     : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ Family                       : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ Health (Life Expectancy)     : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ Freedom                      : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ Trust (Government Corruption): list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ Generosity                   : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ Dystopia Residual            : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   ..$ default: list()
+##   .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_guess&quot; &quot;collector&quot;
+##   ..- attr(*, &quot;class&quot;)= chr &quot;col_spec&quot;
+## Classes &#39;tbl_df&#39;, &#39;tbl&#39; and &#39;data.frame&#39;:    158 obs. of  12 variables:
+##  $ Country                      : Factor w/ 158 levels &quot;Afghanistan&quot;,..: 136 59 38 106 25 46 100 135 101 7 ...
+##  $ Region                       : Factor w/ 10 levels &quot;Australia and New Zealand&quot;,..: 10 10 10 10 6 10 10 10 1 1 ...
+##  $ Happiness Rank               : Factor w/ 157 levels &quot;1&quot;,&quot;10&quot;,&quot;100&quot;,..: 1 71 82 93 104 115 126 137 147 2 ...
+##  $ Happiness Score              : Factor w/ 157 levels &quot;2.839&quot;,&quot;2.905&quot;,..: 157 156 155 154 153 152 151 150 149 148 ...
+##  $ Standard Error               : Factor w/ 153 levels &quot;0.01848&quot;,&quot;0.01866&quot;,..: 20 101 17 51 27 11 6 12 19 57 ...
+##  $ Economy (GDP per Capita)     : Factor w/ 158 levels &quot;0&quot;,&quot;0.0153&quot;,&quot;0.01604&quot;,..: 152 137 140 154 141 135 143 144 130 145 ...
+##  $ Family                       : Factor w/ 158 levels &quot;0&quot;,&quot;0.13995&quot;,..: 155 158 156 153 152 150 139 142 151 148 ...
+##  $ Health (Life Expectancy)     : Factor w/ 157 levels &quot;0&quot;,&quot;0.04776&quot;,..: 149 151 129 133 141 135 138 144 142 148 ...
+##  $ Freedom                      : Factor w/ 158 levels &quot;0&quot;,&quot;0.07699&quot;,..: 157 144 152 158 146 151 139 155 148 153 ...
+##  $ Trust (Government Corruption): Factor w/ 157 levels &quot;0&quot;,&quot;0.00227&quot;,..: 151 99 154 144 142 150 139 153 152 143 ...
+##  $ Generosity                   : Factor w/ 158 levels &quot;0&quot;,&quot;0.00199&quot;,..: 116 145 130 133 146 94 151 134 150 144 ...
+##  $ Dystopia Residual            : Factor w/ 158 levels &quot;0.32858&quot;,&quot;0.65429&quot;,..: 126 135 123 119 117 131 120 110 99 100 ...
+##  - attr(*, &quot;spec&quot;)=List of 2
+##   ..$ cols   :List of 12
+##   .. ..$ Country                      : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
+##   .. ..$ Region                       : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
+##   .. ..$ Happiness Rank               : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   .. ..$ Happiness Score              : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ Standard Error               : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ Economy (GDP per Capita)     : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ Family                       : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ Health (Life Expectancy)     : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ Freedom                      : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ Trust (Government Corruption): list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ Generosity                   : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   .. ..$ Dystopia Residual            : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_double&quot; &quot;collector&quot;
+##   ..$ default: list()
+##   .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_guess&quot; &quot;collector&quot;
+##   ..- attr(*, &quot;class&quot;)= chr &quot;col_spec&quot;</code></pre>
+<p><em>Cleaning Up Joined Employment Dataset</em> This dataset also did not require a lot of cleaning; the joining and subsetting happened in Data.World. There were no commas, strange column headings, etc.</p>
+<pre class="r"><code>source(&quot;../01 Data/R_ETL_GET_status_sector_2012.R&quot;)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   .default = col_integer(),
+##   Country = col_character(),
+##   `Total employment in agriculture (thousands)` = col_number(),
+##   `Male employment in agriculture (thousands)` = col_number(),
+##   `Female employment in agriculture (thousands)` = col_number(),
+##   `Total employment in industry (thousands)` = col_number(),
+##   `Male employment in industry (thousands)` = col_number(),
+##   `Female employment in industry (thousands)` = col_number(),
+##   `Total employment in services (thousands)` = col_number(),
+##   `Male employment in services (thousands)` = col_number(),
+##   `Female employment in services (thousands)` = col_number()
+## )</code></pre>
+<pre><code>## See spec(...) for full column specifications.</code></pre>
+<pre><code>## Classes &#39;tbl_df&#39;, &#39;tbl&#39; and &#39;data.frame&#39;:    188 obs. of  26 variables:
+##  $ Year                                        : int  2012 2012 2012 2012 2012 2012 2012 2012 2012 2012 ...
+##  $ Country                                     : chr  &quot;Sweden&quot; &quot;United Kingdom&quot; &quot;Kyrgyzstan&quot; &quot;Iraq&quot; ...
+##  $ Total employment in agriculture (thousands) : num  98 362 746 1330 35 70 0 97 66 21 ...
+##  $ Male employment in agriculture (thousands)  : num  75 262 423 836 33 56 0 78 65 21 ...
+##  $ Female employment in agriculture (thousands): num  23 100 323 493 3 14 0 20 1 0 ...
+##  $ Total employment in industry (thousands)    : num  918 5667 516 1337 292 ...
+##  $ Male employment in industry (thousands)     : num  746 4619 365 1301 271 ...
+##  $ Female employment in industry (thousands)   : num  172 1048 150 37 21 ...
+##  $ Total employment in services (thousands)    : num  3653 23543 1091 4319 1346 ...
+##  $ Male employment in services (thousands)     : num  1631 11037 574 3741 1096 ...
+##  $ Female employment in services (thousands)   : num  2023 12506 517 578 250 ...
+##  $ Wage and salaried workers                   : int  4179 25213 1269 4658 1407 2451 1550 983 1383 1515 ...
+##  $ Employers                                   : int  175 754 37 595 104 96 17 85 16 12 ...
+##  $ Own-account workers                         : int  302 3485 632 1321 155 144 31 498 45 7 ...
+##  $ Contributing family workers                 : int  12 119 414 413 7 7 7 48 22 0 ...
+##  $ Vulnerable employment                       : int  314 3605 1046 1733 162 151 39 546 67 7 ...
+##  $ Wage and salaried workers(2)                : int  2095 12890 800 4138 1144 1244 1174 694 1199 1342 ...
+##  $ Employers(2)                                : int  138 561 28 578 100 75 14 81 15 12 ...
+##  $ Own-account workers(2)                      : int  214 2416 373 891 150 98 28 446 31 7 ...
+##  $ Contributing family workers(2)              : int  5 50 161 270 6 2 5 31 11 0 ...
+##  $ Vulnerable employment(2)                    : int  219 2466 533 1161 156 100 33 477 43 7 ...
+##  $ Wage and salaried workers(3)                : int  2084 12323 469 520 263 1207 376 288 184 173 ...
+##  $ Employers(3)                                : int  38 193 8 16 4 21 3 4 1 0 ...
+##  $ Own-account workers(3)                      : int  89 1069 260 430 6 46 3 52 13 0 ...
+##  $ Contributing family workers(3)              : int  7 70 253 143 1 5 2 18 11 0 ...
+##  $ Vulnerable employment(3)                    : int  96 1139 513 572 6 51 5 69 25 0 ...
+##  - attr(*, &quot;spec&quot;)=List of 2
+##   ..$ cols   :List of 26
+##   .. ..$ Year                                        : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   .. ..$ Country                                     : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
+##   .. ..$ Total employment in agriculture (thousands) : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_number&quot; &quot;collector&quot;
+##   .. ..$ Male employment in agriculture (thousands)  : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_number&quot; &quot;collector&quot;
+##   .. ..$ Female employment in agriculture (thousands): list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_number&quot; &quot;collector&quot;
+##   .. ..$ Total employment in industry (thousands)    : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_number&quot; &quot;collector&quot;
+##   .. ..$ Male employment in industry (thousands)     : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_number&quot; &quot;collector&quot;
+##   .. ..$ Female employment in industry (thousands)   : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_number&quot; &quot;collector&quot;
+##   .. ..$ Total employment in services (thousands)    : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_number&quot; &quot;collector&quot;
+##   .. ..$ Male employment in services (thousands)     : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_number&quot; &quot;collector&quot;
+##   .. ..$ Female employment in services (thousands)   : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_number&quot; &quot;collector&quot;
+##   .. ..$ Wage and salaried workers                   : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   .. ..$ Employers                                   : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   .. ..$ Own-account workers                         : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   .. ..$ Contributing family workers                 : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   .. ..$ Vulnerable employment                       : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   .. ..$ Wage and salaried workers(2)                : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   .. ..$ Employers(2)                                : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   .. ..$ Own-account workers(2)                      : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   .. ..$ Contributing family workers(2)              : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   .. ..$ Vulnerable employment(2)                    : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   .. ..$ Wage and salaried workers(3)                : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   .. ..$ Employers(3)                                : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   .. ..$ Own-account workers(3)                      : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   .. ..$ Contributing family workers(3)              : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   .. ..$ Vulnerable employment(3)                    : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   ..$ default: list()
+##   .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_guess&quot; &quot;collector&quot;
+##   ..- attr(*, &quot;class&quot;)= chr &quot;col_spec&quot;
+## Classes &#39;tbl_df&#39;, &#39;tbl&#39; and &#39;data.frame&#39;:    188 obs. of  26 variables:
+##  $ Year                                        : Factor w/ 1 level &quot;2012&quot;: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ Country                                     : Factor w/ 188 levels &quot;Afghanistan&quot;,..: 163 178 90 80 86 46 89 94 129 139 ...
+##  $ Total employment in agriculture (thousands) : Factor w/ 175 levels &quot;0&quot;,&quot;10&quot;,&quot;102&quot;,..: 172 96 150 19 94 148 1 170 143 60 ...
+##  $ Male employment in agriculture (thousands)  : Factor w/ 175 levels &quot;0&quot;,&quot;1&quot;,&quot;100&quot;,..: 155 79 110 163 100 130 1 160 143 65 ...
+##  $ Female employment in agriculture (thousands): Factor w/ 149 levels &quot;0&quot;,&quot;1&quot;,&quot;10&quot;,&quot;100&quot;,..: 60 4 83 102 76 28 1 51 2 1 ...
+##  $ Total employment in industry (thousands)    : Factor w/ 175 levels &quot;100&quot;,&quot;1016&quot;,&quot;1019&quot;,..: 168 128 120 22 81 124 81 94 143 159 ...
+##  $ Male employment in industry (thousands)     : Factor w/ 178 levels &quot;1015&quot;,&quot;104&quot;,&quot;108&quot;,..: 151 117 98 16 77 109 75 87 139 156 ...
+##  $ Female employment in industry (thousands)   : Factor w/ 151 levels &quot;10&quot;,&quot;1048&quot;,&quot;105&quot;,..: 38 2 29 89 52 12 66 69 4 124 ...
+##  $ Total employment in services (thousands)    : Factor w/ 186 levels &quot;102&quot;,&quot;108&quot;,&quot;1091&quot;,..: 115 80 3 129 27 69 22 12 167 159 ...
+##  $ Male employment in services (thousands)     : Factor w/ 181 levels &quot;101&quot;,&quot;1015&quot;,&quot;104&quot;,..: 35 7 126 93 6 178 179 167 131 121 ...
+##  $ Female employment in services (thousands)   : Factor w/ 177 levels &quot;102&quot;,&quot;10298&quot;,..: 58 19 122 128 74 13 100 90 55 44 ...
+##  $ Wage and salaried workers                   : Factor w/ 182 levels &quot;1021&quot;,&quot;1024&quot;,..: 122 83 21 131 29 80 45 182 26 39 ...
+##  $ Employers                                   : Factor w/ 143 levels &quot;1&quot;,&quot;10&quot;,&quot;1005&quot;,..: 39 127 90 114 7 143 36 136 31 16 ...
+##  $ Own-account workers                         : Factor w/ 179 levels &quot;10&quot;,&quot;102&quot;,&quot;1034&quot;,..: 96 111 151 22 33 30 99 142 137 154 ...
+##  $ Contributing family workers                 : Factor w/ 153 levels &quot;0&quot;,&quot;1&quot;,&quot;10&quot;,&quot;104426&quot;,..: 18 17 98 97 130 130 130 105 59 1 ...
+##  $ Vulnerable employment                       : Factor w/ 182 levels &quot;10&quot;,&quot;1001&quot;,&quot;10064&quot;,..: 90 101 6 38 32 27 114 147 160 163 ...
+##  $ Wage and salaried workers(2)                : Factor w/ 185 levels &quot;101084&quot;,&quot;1012&quot;,..: 59 25 164 109 13 24 14 148 16 30 ...
+##  $ Employers(2)                                : Factor w/ 131 levels &quot;0&quot;,&quot;1&quot;,&quot;100&quot;,..: 20 97 65 99 3 115 21 122 26 11 ...
+##  $ Own-account workers(2)                      : Factor w/ 180 levels &quot;10&quot;,&quot;10489&quot;,&quot;1050&quot;,..: 74 84 115 171 33 179 94 121 106 153 ...
+##  $ Contributing family workers(2)              : Factor w/ 133 levels &quot;0&quot;,&quot;1&quot;,&quot;10&quot;,&quot;11&quot;,..: 100 101 27 54 111 39 100 62 4 1 ...
+##  $ Vulnerable employment(2)                    : Factor w/ 180 levels &quot;10&quot;,&quot;100&quot;,&quot;101&quot;,..: 77 85 143 8 36 2 105 132 127 155 ...
+##  $ Wage and salaried workers(3)                : Factor w/ 173 levels &quot;10&quot;,&quot;1037&quot;,&quot;104&quot;,..: 57 15 111 115 68 13 92 73 47 39 ...
+##  $ Employers(3)                                : Factor w/ 94 levels &quot;0&quot;,&quot;1&quot;,&quot;10&quot;,&quot;100&quot;,..: 55 23 88 16 57 27 46 57 2 1 ...
+##  $ Own-account workers(3)                      : Factor w/ 169 levels &quot;0&quot;,&quot;10&quot;,&quot;100&quot;,..: 161 9 69 100 125 104 74 116 25 1 ...
+##  $ Contributing family workers(3)              : Factor w/ 132 levels &quot;0&quot;,&quot;1&quot;,&quot;100&quot;,..: 112 113 50 24 2 89 39 35 5 1 ...
+##  $ Vulnerable employment(3)                    : Factor w/ 172 levels &quot;0&quot;,&quot;1&quot;,&quot;100&quot;,..: 170 15 125 134 137 123 122 148 77 1 ...
+##  - attr(*, &quot;spec&quot;)=List of 2
+##   ..$ cols   :List of 26
+##   .. ..$ Year                                        : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   .. ..$ Country                                     : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
+##   .. ..$ Total employment in agriculture (thousands) : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_number&quot; &quot;collector&quot;
+##   .. ..$ Male employment in agriculture (thousands)  : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_number&quot; &quot;collector&quot;
+##   .. ..$ Female employment in agriculture (thousands): list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_number&quot; &quot;collector&quot;
+##   .. ..$ Total employment in industry (thousands)    : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_number&quot; &quot;collector&quot;
+##   .. ..$ Male employment in industry (thousands)     : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_number&quot; &quot;collector&quot;
+##   .. ..$ Female employment in industry (thousands)   : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_number&quot; &quot;collector&quot;
+##   .. ..$ Total employment in services (thousands)    : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_number&quot; &quot;collector&quot;
+##   .. ..$ Male employment in services (thousands)     : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_number&quot; &quot;collector&quot;
+##   .. ..$ Female employment in services (thousands)   : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_number&quot; &quot;collector&quot;
+##   .. ..$ Wage and salaried workers                   : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   .. ..$ Employers                                   : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   .. ..$ Own-account workers                         : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   .. ..$ Contributing family workers                 : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   .. ..$ Vulnerable employment                       : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   .. ..$ Wage and salaried workers(2)                : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   .. ..$ Employers(2)                                : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   .. ..$ Own-account workers(2)                      : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   .. ..$ Contributing family workers(2)              : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   .. ..$ Vulnerable employment(2)                    : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   .. ..$ Wage and salaried workers(3)                : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   .. ..$ Employers(3)                                : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   .. ..$ Own-account workers(3)                      : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   .. ..$ Contributing family workers(3)              : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   .. ..$ Vulnerable employment(3)                    : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   ..$ default: list()
+##   .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_guess&quot; &quot;collector&quot;
+##   ..- attr(*, &quot;class&quot;)= chr &quot;col_spec&quot;</code></pre>
+</div>
+<div id="the-visualizations" class="section level1">
+<h1><strong>The Visualizations</strong></h1>
+<div id="scatterplot" class="section level2">
+<h2><em>Scatterplot</em></h2>
+<b>Tableau Version</b>
+<center>
+<img src="C:/Users/Natascha/Documents/Spring%202017/Data%20Visualization/Final%20Project/03%20Visualizations/Scatterplot.png" alt="vis1" />
+</center>
+<b>Shiny Version</b>
+<center>
+<img src="C:/Users/Natascha/Documents/Spring%202017/Data%20Visualization/Final%20Project/03%20Visualizations/Scatterplot_Shiny.png" alt="vis2" />
+</center>
+<p>These visualizations shows that as GDP increases, so does happiness. We also get an indication of the trend of each region in happiness; for example, Australia and New Zealand have a pretty horizontal line. As only two countries are involved, it shows that the disaparity between the two is not high; GDP and Happiness are quite similar for Australia and New Zealand. We also see clustering of countries in the Sub-Saharan Africa region with low happiness scores and low GDPs. Western Europe is on the opposite end of this spectrum with high happiness scores and high GDPs, though there is a fairly large disparity between the happiest country in Europe and the least happy based on the trend line.</p>
+</div>
+<div id="boxplot" class="section level2">
+<h2><em>Boxplot</em></h2>
+<b>Tableau Version</b>
+<center>
+<img src="C:/Users/Natascha/Documents/Spring%202017/Data%20Visualization/Final%20Project/03%20Visualizations/Boxplot.PNG" alt="vis3" />
+</center>
+<b>Shiny Version</b>
+<center>
+<img src="C:/Users/Natascha/Documents/Spring%202017/Data%20Visualization/Final%20Project/03%20Visualizations/Boxplot_Shiny.png" alt="vis1" />
+</center>
+<p>These visualizations show that Sub-Saharan Africa has both the largest percentage of people working in the Agriculture sector and the highest variance of those working in this sector. High income regions such as North America, Western Europe, and Australia and New Zealand have the least variance within each group. Also, the sector with the largest percentage of people working within it for these countries is the Services sector with very few working in the Agriculture sector. The Middle East and Africa has large variance within each group.</p>
+</div>
+<div id="barchart" class="section level2">
+<h2><em>Barchart</em></h2>
+<b>Tableau Version</b>
+<center>
+<img src="C:/Users/Natascha/Documents/Spring%202017/Data%20Visualization/Final%20Project/03%20Visualizations/barchart1.png" alt="vis3" />
+</center>
+<b>Shiny Version</b>
+<center>
+<img src="C:/Users/Natascha/Documents/Spring%202017/Data%20Visualization/Final%20Project/03%20Visualizations/barchart_shiny.png" alt="vis1" />
+</center>
+<p>The barcharts show us that Sub-Saharan Africa is the least happy within each Income Class. Overall, Australia and New Zealand are the happiest. The line shows us the average happiness score of the region. Latin America and the Caribbean are the happiest for both the Upper Middle Income and Lower Middle Income.</p>
+</div>
+<div id="crosstabs" class="section level2">
+<h2><em>Crosstabs</em></h2>
+<b>Tableau Version</b>
+<center>
+<img src="C:/Users/Natascha/Documents/Spring%202017/Data%20Visualization/Final%20Project/03%20Visualizations/crosstab2.png" alt="vis3" />
+</center>
+<b>Shiny Version</b>
+<center>
+<img src="C:/Users/Natascha/Documents/Spring%202017/Data%20Visualization/Final%20Project/03%20Visualizations/crosstb_shiny.png" alt="vis1" />
+</center>
+<p>In this visualization, things are a little reversed; as we are averaging the happiness rank, a higher rank means that a country/region is less happy on a whole. Each number is the average happiness of the countries who are in this region and whose main sector it is either industry, agriculture, or services. The sector with the lowest happiness score, on average, are the companies whose largest sector is agriculture. The only region that has a country whose main sector is Industry is the Middle East/North Africa.</p>
+</div>
+<div id="map" class="section level2">
+<h2><em>Map</em></h2>
+<b>Tableau Version</b>
+<center>
+<img src="C:/Users/Natascha/Documents/Spring%202017/Data%20Visualization/Final%20Project/03%20Visualizations/Map.PNG" alt="vis3" />
+</center>
+<b>Shiny Version</b>
+<center>
+<img src="C:/Users/Natascha/Documents/Spring%202017/Data%20Visualization/Final%20Project/03%20Visualizations/map_shiny.png" alt="vis1" />
+</center>
+<p>The maps provide shows that the regions of Africa and parts of the Middle East, Eastern Europe, and SouthEastern Asia are the least happy. Northern Europe, most of South America, and North America are largely happy. In the Shiny app you can hover over each marker to find the country and then select the marker to view the country’s happiness rank and score.</p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
