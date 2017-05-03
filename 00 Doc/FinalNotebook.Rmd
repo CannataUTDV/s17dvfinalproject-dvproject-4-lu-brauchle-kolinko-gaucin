@@ -15,7 +15,20 @@ This project shows interesting findings about the correlation between happiness 
 Our data was supplied from the [International Labour Organization](http://www.ilo.org/global/research/global-reports/global-employment-trends/2014/WCMS_234879/lang--en/index.htm), [Kaggle](https://www.kaggle.com/unsdsn/world-happiness),
 [UN](http://www.un.org/en/development/desa/policy/wesp/wesp_current/2014wesp_country_classification.pdf), [Google Developers](https://developers.google.com/public-data/docs/canonical/countries_csv), and [World Bank](http://data.worldbank.org/indicator/SP.POP.TOTL)
 
-#**R Configuration**
+The international Labour Organization website provided us the datasets for Employment by Sector and Status in Employment. Using the data.world query functions, we subset the data from the year 2012 for both of these and joined them together. 
+
+Kaggle provided the World Happiness data. This dataset gives a rank by happiness for each country, the region in which the country is in, and a happiness score. The scores are based on the answer to a question asked in the Gallup World Poll. Quoting from Data.World, "This question, known as the Cantril ladder, asks respondents to think of a ladder with the best possible life for them being a 10 and the worst possible life being a 0 and to rate their own current lives on that scale."
+
+We needed one more categorical variable but could not find any suitable datasets. The UN report on "Country Classification" gave a list of countries determined to be in a category of either: Low Income, Lower Middle Income, Upper Middle Income, High Income. There was not an easily downloadable CSV for this so we created one in Excel. This was not run through an ETL file as there was nothing to clean up as it was only two columns - Country and Income Class. We joined this dataset with the joined employment dataset. 
+
+The Google Developers site provided the longitude and latitude data for each country; we then joined this dataset with the previously joined dataset from above. 
+
+Finally, to make the data more readable and create a calculated field that calculates the percentage in each sector (Agriculture, Industry, and Service), we had to find the population data for each country. This came form the World Bank website. This dataset was, again, joined with the dataset that has all the other joins. 
+
+Our final join was combining the dataset that had all of the above with the World Happiness datset. This was accomplished through an outer join, linking by Country name. 
+
+All joins were completed in data.world, with one exception. We joined the World Happiness dataset with the large conglomeration above in Tableau as well. 
+
 Below we display our sessionInfo().
 
 ```{r sessionInfo}
@@ -24,11 +37,25 @@ sessionInfo()
 
 #**The Data**
 
+
+*Cleaning Up World Happiness Dataset*
+
+This data was not difficult to clean up and remained largey untouched. 
+
 ```{r}
-source("../01 Data/preETL_happiness_jobs.R")
+source("../01 Data/R_ETL_World_Happiness.R")
 ```
 
-**The Visualizations**
+*Cleaning Up Joined Employment Dataset*
+This dataset also did not require a lot of cleaning; the joining and subsetting happened in Data.World. There were no commas, strange column headings, etc.
+```{r}
+source("../01 Data/R_ETL_GET_status_sector_2012.R")
+```
+
+
+
+#**The Visualizations**
+##*Substance Abuse by County*
 ...
 
 
