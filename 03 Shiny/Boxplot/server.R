@@ -51,29 +51,33 @@ shinyServer(function(input, output) {
   output$boxplotPlot1 <- renderPlotly({
     #View(dfbp3())
     p <- ggplot(dfbp2()) + 
-      geom_boxplot(aes(x=Region, y=ratio_agr, colour=Income.Class)) + 
+      geom_boxplot(aes(x=Region, y=ratio_agr, fill=Income.Class)) + 
       ylim(0, input$boxSalesRange1[2]) +
-      coord_cartesian(ylim = c(0, 1)) +
-      ggtitle("Percent in Agriculture per Region")+
-      theme(axis.text.x=element_text(angle=90, size=10, vjust=0.5)) +
-      theme(legend.position = "none")
+      coord_cartesian(ylim = c(0, .5)) +
+      theme(legend.title = element_blank(),legend.position = "none",axis.text.x=element_text(angle=20, size=10, vjust=0.5), axis.text.y=element_text(size = 10)) +
+      ylab("Percent in Agriculture")
 
       
     p2 <- ggplot(dfbp2()) + 
-      geom_boxplot(aes(x=Region, y=ratio_ind, colour=Income.Class)) + 
-      ggtitle("Percent in Industry per Region")+
+      geom_boxplot(aes(x=Region, y=ratio_ind, fill=Income.Class)) + 
+
       ylim(0, input$boxSalesRange1[2]) +
-      coord_cartesian(ylim = c(0, 1)) +
-      theme(axis.text.x=element_text(angle=90, size=10, vjust=0.5))
+      coord_cartesian(ylim = c(0, .5)) +
+      theme(legend.title = element_blank(), legend.position = "none",axis.text.x=element_text(angle=20, size=10, vjust=0.5), axis.text.y=element_text(size = 10))
+    
     
     p3 <- ggplot(dfbp2()) + 
-      geom_boxplot(aes(x=Region, y=ratio_serv, colour=Income.Class)) + 
+      geom_boxplot(aes(x=Region, y=ratio_serv, fill=Income.Class)) + 
       ylim(0, input$boxSalesRange1[2]) +
-      coord_cartesian(ylim = c(0, 1)) +
-      ggtitle("Percent in Services per Region")+
-      theme(axis.text.x=element_text(angle=90, size=10, vjust=0.5))
-    finalp <- subplot(p, p2, p3,  shareX  = TRUE, shareY = TRUE)
-    ggplotly(finalp)
+      coord_cartesian(ylim = c(0, .5)) +
+      theme(legend.title = element_blank(),legend.text = element_text( size = 8),axis.text.x=element_text(angle=20, size=10, vjust=0.5), axis.text.y=element_text(size = 10))
+    
+    
+    finalp <- subplot(p, p2, p3, nrows = 3, shareX  = TRUE, margin = 0.05, heights = c(.3, .4, .3))
+    
+    ggplotly(finalp, height = 10000)
+    
+
     
     
   })
