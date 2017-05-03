@@ -17,11 +17,13 @@ names(df)
 
 server <- function(input, output) {
   
-  color <- colorFactor(rainbow(2, s = 1, v = 1, start = 0, end = .3), df$Happiness.Score)
+  
   
   reg = c("Australia and New Zealand", "Central and Eastern Europe", "Eastern Asia", "Latin America and Caribbean", "Middle East and Northern Africa", "Middle East and Northern Africa", "North America", "Southeastern Asia", "Southern Asia", "Sub-Saharan Africa", "Western Europe")
   
   output$map <- renderLeaflet({
+    color <- colorFactor(rainbow(2, s = 1, v = 1, start = 0, end = .3), df$Happiness.Score)
+    
     leaflet(df) %>%
       setView(lng = 0, lat = 0, zoom = 2)%>% 
       addTiles() %>% 
@@ -32,7 +34,7 @@ server <- function(input, output) {
                  labelOptions = labelOptions(noHide = F, direction = 'auto', textOnly=FALSE, style = list('border-color' = 'rgba(0, 0, 0, 0)')), 
                  radius=~Happiness.Score*1.5, 
                  stroke=FALSE, 
-                 fillOpacity=0.5, color=~color(df$Happiness.Score), popup = ~paste(sep = "<br/>", "Happiness Score: ", as.character(df$Happiness.Score), " Happiness Rank: ", as.character(df$Happiness.Rank)))
+                 fillOpacity=0.5, color=~color(df$Happiness.Score), popup = ~paste(sep = "<br/>", "<b>Happiness Score:</b> ", as.character(df$Happiness.Score), " <b>Happiness Rank:</b> ", as.character(df$Happiness.Rank)))
     
   })
 }

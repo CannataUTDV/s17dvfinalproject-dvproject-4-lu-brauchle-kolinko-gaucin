@@ -13,13 +13,13 @@ dashboardPage(
   ),
   dashboardSidebar(
     sidebarMenu(
-      menuItem("Action Example", tabName = "action", icon = icon("dashboard"))
+      menuItem("Happiness Score Map", tabName = "Happiness Score Map", icon = icon("dashboard"))
     )
   ),
   dashboardBody(
-    tabItem(tabName = "map",
+    tabItem(tabName = "Happiness Score Map",
             tabsetPanel(
-              tabPanel("map", leafletOutput("map", height=500) )
+              tabPanel("Happiness Score Map", leafletOutput("map", height=500) )
             )
     )
   )

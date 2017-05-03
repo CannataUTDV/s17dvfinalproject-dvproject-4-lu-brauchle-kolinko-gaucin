@@ -17,13 +17,10 @@ dashboardPage(
       tabItem(tabName = "crosstab",
         tabsetPanel(
             tabPanel("Data",  
-              radioButtons("rb1", "Get data from:",
-                c("SQL" = "SQL",
-                  "CSV" = "CSV"), inline=T),
               sliderInput("KPI1", "KPI_Low:", 
-                          min = 0.66, max = 1.5,  value = 1),
+                          min = 0, max = 50,  value = 33),
               sliderInput("KPI2", "KPI_Medium:", 
-                          min = 1.5, max = 2.33,  value = 2),
+                          min = 50.1, max = 100,  value = 67),
               actionButton(inputId = "click1",  label = "To get data, click here"),
               hr(), # Add space after button.
               DT::dataTableOutput("data1")

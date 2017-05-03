@@ -24,7 +24,7 @@ dashboardPage(
                     tabsetPanel(
                         tabPanel("Data",  
                                  
-                                 uiOutput("claim_types2"), # See http://shiny.rstudio.com/gallery/dynamic-ui.html
+                                 uiOutput("regions2"), # See http://shiny.rstudio.com/gallery/dynamic-ui.html
                                  
                                  actionButton(inputId = "click2",  label = "To get data, click here"), hr(), # Add space after button.
                                  

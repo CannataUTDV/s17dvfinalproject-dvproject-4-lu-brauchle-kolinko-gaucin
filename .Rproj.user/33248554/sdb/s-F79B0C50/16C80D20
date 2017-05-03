@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "require(tidyr)\nrequire(dplyr)\nrequire(ggplot2)\n\nFigureNum <<- 0 # Global variable\n\nggplot_func <- function(df,\n  Title = \"Diamonds\",\n  Legend = \"color\",   # Notice how this is handled below using names(df)[names(df) == Legend] <- 'Legend'\n  PointColor = c(\"red4\", \"darkslategray3\", \"dodgerblue1\", \"darkcyan\",\n                 \"gray79\", \"black\", \"skyblue2\", \"dodgerblue4\",\n                 \"purple4\", \"maroon\", \"chocolate1\", \"bisque3\", \"bisque\",\n                 \"seagreen4\", \"lightgreen\", \"skyblue4\", \"mediumpurple3\",\n                 \"palevioletred1\", \"lightsalmon4\", \"darkgoldenrod1\"),\n  YMin = 0,\n  YMax = max(df$price) * 1.1,\n  XMin = 0,\n  XMax = max(df$carat) * 1.1,\n  Caption = \"\"\n) {\n    FigureNum <<- FigureNum + 1\n    \n    # See http://stackoverflow.com/questions/32503843/using-a-function-parameter-in-ggplot-mapping-aes for a discussion of the following line of code:\n    names(df)[names(df) == Legend] <- 'Legend'\n    print(names(df))\n    \n    p <- ggplot(df) + \n      geom_point(aes(x=carat, y=price, colour=Legend)) +\n      ylim(YMin, YMax) + xlim(XMin, XMax) +\n      scale_colour_manual(values = PointColor) +\n      labs(title=\"Grammar of Graphics Example\", x = paste(\"carat\\nFigure \", FigureNum), colour = Legend, caption = Caption) +\n      theme(axis.text.x=element_text(size=20, vjust=0.5)) +\n      theme(axis.text.y=element_text(size=20, hjust=0.5)) +\n      theme(plot.title = element_text(size=22)) +\n      theme(legend.title = element_text(size=20, face=\"bold\"), legend.text = element_text(size=18))\n \n    return(p)\n}\n\np1 <- ggplot_func(diamonds)\np2 <- ggplot_func(diamonds, YMin = 5000, YMax = 15000, Caption = \"This is a subset of the previous figure's  data\")\np3 <- dplyr::filter(diamonds, cut == \"Premium\") %>% ggplot_func(., Legend = \"cut\")\np4 <- ggplot_func(diamonds, Legend = \"clarity\", PointColor = c(\"black\", \"purple\", \"red\", \"blue\", \"green\", \"yellow\", \"grey\", \"orange\"))\n\nrequire(\"grid\")\n\n# You may need to use getwd() to find out where the \"4diamonds.png\" file will be put.\n# You can use setwd() to set the current working directory.\npng(\"4diamonds.png\", width = 25, height = 20, units = \"in\", res = 72)\ngrid.newpage()\npushViewport(viewport(layout = grid.layout(2, 2)))   \n\n# Print Plots\nprint(p1, vp = viewport(layout.pos.row = 1, layout.pos.col = 1))  \nprint(p2, vp = viewport(layout.pos.row = 1, layout.pos.col = 2))\nprint(p3, vp = viewport(layout.pos.row = 2, layout.pos.col = 1))  \nprint(p4, vp = viewport(layout.pos.row = 2, layout.pos.col = 2)) \n\ndev.off()\n",
+    "created" : 1493765668951.000,
+    "dirty" : true,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2631324645",
+    "id" : "16C80D20",
+    "lastKnownWriteTime" : 1487117595,
+    "last_content_update" : 1493765902050,
+    "path" : "~/DataVisualization/DrCannata/02 Grammar of Graphics with R and ggplot2/Plotting Function Example.R",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
