@@ -5,6 +5,7 @@ require(shinydashboard)
 require(DT)
 require(leaflet)
 require(plotly)
+require(plyr)
 
 dashboardPage(skin = "black",
   dashboardHeader(title="Final"
@@ -15,7 +16,8 @@ dashboardPage(skin = "black",
       menuItem("Scatterplot", tabName = "Scatterplot", icon = icon("dashboard")),
       menuItem("Boxplot", tabName = "Bplot", icon = icon("dashboard")),
       menuItem("World Map", tabName = "Map", icon = icon("dashboard")),
-     menuItem("Barcharts, Table Calculations", tabName = "barchart", icon = icon("dashboard"))
+     menuItem("Barcharts, Table Calculations", tabName = "barchart", icon = icon("dashboard")),
+     menuItem("Crosstab", tabName = "crosstab", icon = icon("dashboard"))
       )
   ),
   
@@ -85,12 +87,26 @@ dashboardPage(skin = "black",
                            'Here is data for the "Barchart with Table Calculation" tab', hr(),
                            DT::dataTableOutput("barchartData1")
                   ),
-                  tabPanel("Barchart with Table Calculation", "Black = Sum of Sales per Region, Red = Average Sum of Sales per Category, and  Blue = (Sum of Sales per Region - Average Sum of Sales per Category)", plotOutput("barchartPlot1", height=1500))
+                  tabPanel("Barchart with Table Calculation", "Black = Average Happiness Score, Red = Average Happiness Score per Region, and  Blue = (Average Happiness Score - Average Happiness Score per Region)", plotOutput("barchartPlot1", height=1500))
                 )
-        )
+        ),
         # End Barchart tab content.
       
-      #Crosstab tab
+      # Begin Crosstab tab content.
+      tabItem(tabName = "crosstab",
+              tabsetPanel(
+                tabPanel("Data",  
+                         sliderInput("KPI1", "KPI_Low:", 
+                                     min = 0, max = 50,  value = 33),
+                         sliderInput("KPI2", "KPI_Medium:", 
+                                     min = 50.1, max = 100,  value = 67),
+                         actionButton(inputId = "click1",  label = "To get data, click here"),
+                         hr(), # Add space after button.
+                         DT::dataTableOutput("data10")
+                ),
+                tabPanel("Crosstab", plotOutput("plot10", height=1000))
+              )
+      )
       
       
     )

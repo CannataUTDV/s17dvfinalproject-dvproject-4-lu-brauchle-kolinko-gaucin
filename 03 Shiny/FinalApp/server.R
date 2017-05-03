@@ -10,6 +10,7 @@ require(plotly)
 require(lubridate)
 require(gridExtra)
 require(cowplot)
+require(plyr)
 
 #df <- data.frame(fromJSON(getURL(URLencode(gsub("\n", " ",'oraclerest.cs.utexas.edu:5000/rest/native/?query="select * from Chemical_Dependence"')),httpheader=c(DB='jdbc:data:world:sql:brauchlen:s-17-edv-project-4', USER='kolinkodm', PASS='eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcm9kLXVzZXItY2xpZW50OmtvbGlua29kbSIsImlzcyI6ImFnZW50OmtvbGlua29kbTo6Mzg4NTJlZWUtZDZhOS00NjFiLWI4YTgtYWZjNGRjYjA4YjhmIiwiaWF0IjoxNDg0NzE0NjE5LCJyb2xlIjpbInVzZXJfYXBpX3dyaXRlIiwidXNlcl9hcGlfcmVhZCJdLCJnZW5lcmFsLXB1cnBvc2UiOnRydWV9.VElhv7u_Pue0KH2VWN-6vbd4XvWqo0u9Ym1S7z-pSzlq_ClWOZiHpKDoMBO-U9cyVs9SZmFN2hdMJ2_yBYVwAg', MODE='native_mode', MODEL='model', returnDimensions = 'False', returnFor = 'JSON'), verbose = TRUE) ))
 
@@ -217,6 +218,39 @@ server <- function(input, output) {
         # Add reference line with a label.
         geom_hline(aes(yintercept = round(window_avg_scores)), color="red") +
         geom_text(aes( -1, window_avg_scores, label = window_avg_scores, vjust = -.5, hjust = -.25), color="red")
+    })
+    
+    
+    #----------Crostabs-------------
+    KPI_Low = reactive({input$KPI1})     
+    KPI_Medium = reactive({input$KPI2})
+    
+    # Begin Crosstab Tab ------------------------------------------------------------------
+    dfabc1 <- eventReactive(input$click1, {
+      
+      
+      dff1 <- df %>% dplyr::select(Total.employment.in.agriculture..thousands.,
+                                      Total.employment.in.industry..thousands.,
+                                      Total.employment.in.services..thousands.,
+                                      Region,Happiness.Score,Happiness.Rank)
+      
+      dff2 <- dff1 %>% dplyr::mutate(MainIndustry = if_else(Total.employment.in.agriculture..thousands.>=Total.employment.in.industry..thousands. & Total.employment.in.agriculture..thousands.>=Total.employment.in.services..thousands., 'Agriculture', if_else(Total.employment.in.industry..thousands.>=Total.employment.in.agriculture..thousands. & Total.employment.in.industry..thousands.>=Total.employment.in.services..thousands., 'Industry', 'Services')))
+      
+      dff2 %>% dplyr::select(Region, Happiness.Score, Happiness.Rank, MainIndustry) %>% 
+        dplyr::group_by(MainIndustry, Region) %>% 
+        dplyr::summarise(avg_scores = round(mean(Happiness.Score),2), avg_ranks = round(mean(Happiness.Rank),2), 
+                         kpi = if_else(avg_ranks <= KPI_Low(), '03 Low', if_else(avg_ranks <= KPI_Medium(), '02 Medium', '01 High')))
+    })
+    
+    output$data10 <- renderDataTable({DT::datatable(dfabc1(), rownames = FALSE,
+                                                   extensions = list(Responsive = TRUE, FixedHeader = TRUE))
+    })
+    
+    output$plot10 <- renderPlot({ggplot(dfabc1()) + 
+        geom_text(aes(x=Region, y=MainIndustry, label=avg_scores), size=6) +
+        geom_tile(aes(x=Region, y=MainIndustry, fill=kpi), alpha=0.50) +
+        theme(axis.text.x=element_text(angle=90, size=12, vjust=0.5)) + 
+        theme(axis.text.y=element_text(size=12, hjust=0.5))
     })
   }
 
