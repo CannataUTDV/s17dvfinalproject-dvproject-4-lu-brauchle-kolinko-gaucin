@@ -8,10 +8,11 @@ require(DT)
 require(leaflet)
 require(plotly)
 require(lubridate)
-
+require(gridExtra)
+require(cowplot)
 # fix up dataset for boxplots
 df <- read.csv("https://query.data.world/s/6v1xt64l1z4r2k2qf1i80ql0p",header=T); 
-df2 <- df %>% dplyr::mutate(ratio_agr = (Total.employment.in.agriculture..thousands./Population),ratio_ind =  (Total.employment.in.industry..thousands./Population), ratio_serv = (Total.employment.in.services..thousands./Population))
+df2 <- df %>% dplyr::mutate(ratio_agr = (Total.employment.in.agriculture..thousands.*1000/Population),ratio_ind =  (Total.employment.in.industry..thousands.*1000/Population), ratio_serv = (Total.employment.in.services..thousands.*1000/Population)) %>% dplyr::filter(Income.Class != '')
 
 tdf1 = df2 %>% dplyr::distinct(Region) %>% arrange(Region) %>% dplyr::rename(D = Region)
 tdf2 = df2 %>% dplyr::distinct(Region) %>% arrange(Region) %>% dplyr::rename(R = Region)
@@ -33,7 +34,7 @@ shinyServer(function(input, output) {
     if(input$selectedBoxplotRegions == 'All') region_list5 <- input$selectedBoxplotRegions
     else region_list5 <- append(list("Skip" = "Skip"), input$selectedBoxplotRegions)
 
-      df2 %>% dplyr::select(Happiness.Score, Income.Class, Region, ratio_agr) %>% dplyr::filter(Region %in% input$selectedBoxplotRegions | input$selectedBoxplotRegions == "All") # %>% View()
+      df2 %>% dplyr::select(Happiness.Score, Income.Class, Region, ratio_agr, ratio_ind,ratio_serv) %>% dplyr::filter(Region %in% input$selectedBoxplotRegions | input$selectedBoxplotRegions == "All") # %>% View()
     
   })
   
@@ -47,15 +48,37 @@ shinyServer(function(input, output) {
     dfbp1() %>% dplyr::filter(Happiness.Score >= input$boxSalesRange1[1] & Happiness.Score <= input$boxSalesRange1[2]) # %>% View()
   })
   
-  
   output$boxplotPlot1 <- renderPlotly({
     #View(dfbp3())
     p <- ggplot(dfbp2()) + 
-      geom_boxplot(aes(x=Region, y=Happiness.Score, colour=Income.Class)) + 
+      geom_boxplot(aes(x=Region, y=ratio_agr, colour=Income.Class)) + 
       ylim(0, input$boxSalesRange1[2]) +
+      coord_cartesian(ylim = c(0, 1)) +
+      ggtitle("Percent in Agriculture per Region")+
+      theme(axis.text.x=element_text(angle=90, size=10, vjust=0.5)) +
+      theme(legend.position = "none")
+
+      
+    p2 <- ggplot(dfbp2()) + 
+      geom_boxplot(aes(x=Region, y=ratio_ind, colour=Income.Class)) + 
+      ggtitle("Percent in Industry per Region")+
+      ylim(0, input$boxSalesRange1[2]) +
+      coord_cartesian(ylim = c(0, 1)) +
       theme(axis.text.x=element_text(angle=90, size=10, vjust=0.5))
-    ggplotly(p)
+    
+    p3 <- ggplot(dfbp2()) + 
+      geom_boxplot(aes(x=Region, y=ratio_serv, colour=Income.Class)) + 
+      ylim(0, input$boxSalesRange1[2]) +
+      coord_cartesian(ylim = c(0, 1)) +
+      ggtitle("Percent in Services per Region")+
+      theme(axis.text.x=element_text(angle=90, size=10, vjust=0.5))
+    finalp <- subplot(p, p2, p3,  shareX  = TRUE, shareY = TRUE)
+    ggplotly(finalp)
+    
+    
   })
+
+
 }
 )
 #end shiny server  

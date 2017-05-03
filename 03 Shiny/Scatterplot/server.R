@@ -12,7 +12,7 @@ names(df)
 
 server <- function(input, output) {
   output$plot1 <- renderPlot({
-    ggplot(df, aes(x=Economy..GDP.per.Capita., y=Happiness.Score, colour=Region, size=4)) + geom_smooth(method = "lm", size = 1)+ geom_point() + guides(size=FALSE)
+    ggplot(df, aes(x=Economy..GDP.per.Capita., y=Happiness.Score, colour=Region, size=4)) + xlab("GDP Per Capita") + ylab("Happiness Score") + ggtitle("Happiness by GDP") + geom_smooth(method = "lm", size = 1)+ geom_point() + guides(size=FALSE)
   })
   
   output$plot2 <- renderPlot({
@@ -20,7 +20,7 @@ server <- function(input, output) {
     bdf=brushedPoints(df, input$plot_brush)
     #View(bdf)
     if( !is.null(input$plot_brush) ) {
-      df %>% dplyr::filter(Economy..GDP.per.Capita. %in% bdf[, "Economy..GDP.per.Capita."]) %>% ggplot(aes(x=Economy..GDP.per.Capita., y=Happiness.Score, colour=Region, size=4)) + geom_point() + geom_smooth(method = "lm", size = 1) + guides(size=FALSE)
+      df %>% dplyr::filter(Economy..GDP.per.Capita. %in% bdf[, "Economy..GDP.per.Capita."]) %>% ggplot(aes(x=Economy..GDP.per.Capita., y=Happiness.Score, colour=Region, size=4)) + geom_point() + xlab("GDP Per Capita") + ylab("Happiness Score") + ggtitle("Happiness by GDP")+  geom_smooth(method = "lm", size = 1) + guides(size=FALSE)
     } 
   })
 }
