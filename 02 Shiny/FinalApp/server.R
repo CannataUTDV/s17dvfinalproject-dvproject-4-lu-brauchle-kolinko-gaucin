@@ -163,30 +163,29 @@ server <- function(input, output) {
   
   
   output$regions2 <- renderUI({selectInput("selectedRegions", "Choose regions:", region_list, multiple = TRUE, selected='All') })
-    
-  ddf <- read.csv("https://query.data.world/s/1bf1rqx0f351otahiiji5vy6q", header = T)
+  
     
   dfbc1 <- eventReactive(input$click2, {
       if(input$selectedRegions == 'All') region_list <- input$selectedRegions
       else region_list <- append(list("Skip" = "Skip"), input$selectedRegions)
       
-      tdf <- df %>% dplyr::select(Region, Income.Class, Happiness.Score, Happiness.Rank) %>% 
-        dplyr::filter(Income.Class %in% c('High Income','Upper Middle Income','Lower Middle Income','Low Income'), Region %in% input$selectedRegions | input$selectedRegions == "All") %>% 
+      tdf <- df %>% 
+        dplyr::filter(Income.Class != '', Region %in% input$selectedRegions | input$selectedRegions == "All") %>% 
         dplyr::group_by(Income.Class, Region) %>% 
-        dplyr::summarise(avg_scores = mean(Happiness.Score), avg_ranks = mean(Happiness.Rank),
-                         kpi = if_else(avg_ranks <= 33, '03 Low', if_else(avg_ranks <= 67, '02 Medium', '01 High')))
+        dplyr::summarise(avg_scores = mean(Happiness.Score), avg_ranks = mean(Happiness.Rank), kpi = if_else(avg_ranks <= 33, '03 Low', if_else(avg_ranks <= 67, '02 Medium', '01 High')))
       
       # The following two lines mimic what can be done with Analytic SQL. Analytic SQL does not currently work in data.world.
-      tdf2 <- tdf %>% dplyr::select(Income.Class, avg_scores) %>% 
-                     dplyr::group_by(Income.Class) %>% summarise(window_avg_scores = mean(avg_scores))
-      tdf2 %>% dplyr::inner_join(tdf, by = Income.Class)
+      tdf2 <- tdf  %>% 
+                     dplyr::group_by(Income.Class) %>% mutate(window_avg_scores = mean(avg_scores))
+      
+      tdf %>% dplyr::inner_join(tdf2, by = "Income.Class")
     })
     output$barchartData1 <- renderDataTable({DT::datatable(dfbc1(),
                                                            rownames = FALSE,
                                                            extensions = list(Responsive = TRUE, FixedHeader = TRUE) )
     })
     
-    output$barchartPlot1 <- renderPlot({ggplot(dfbc1(), aes(x=Region, y=avg_scores, fill=kpi)) +
+    output$barchartPlot1 <- renderPlot({ggplot(dfbc1(), aes(x=Region.x, y=avg_scores.x, fill=kpi.x)) +
         scale_y_continuous(labels = scales::comma) + # no scientific notation
         theme(axis.text.x=element_text(angle=0, size=12, vjust=0.5)) + 
         theme(axis.text.y=element_text(size=12, hjust=0.5)) +
@@ -194,8 +193,8 @@ server <- function(input, output) {
         facet_wrap(~Income.Class, ncol=1) + 
         coord_flip() + 
         # Add sum_sales, and (sum_sales - window_avg_sales) label.
-        geom_text(mapping=aes(x=Region, y=avg_scores, label=round(avg_scores)),colour="black", hjust=-.5) +
-        geom_text(mapping=aes(x=Region, y=avg_scores, label=round(avg_scores - window_avg_scores)),colour="blue", hjust=-2) +
+        geom_text(mapping=aes(x=Region.x, y=avg_scores.x, label=round(avg_scores.x)),colour="black", hjust=-.5) +
+        geom_text(mapping=aes(x=Region.x, y=avg_scores.x, label=round(avg_scores.x - window_avg_scores)),colour="blue", hjust=-2) +
         # Add reference line with a label.
         geom_hline(aes(yintercept = round(window_avg_scores)), color="red") +
         geom_text(aes( -1, window_avg_scores, label = window_avg_scores, vjust = -.5, hjust = -.25), color="red")
