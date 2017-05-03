@@ -75,18 +75,25 @@ These visualizations show that Sub-Saharan Africa  has both the largest percenta
 <b>Tableau Version</b>
 <center>![vis3](../03 Visualizations/barchart1.png)</center>
 <b>Shiny Version</b>
-<center>![vis1](../03 Visualizations/Boxplot_Shiny.png)</center>
+<center>![vis1](../03 Visualizations/barchart_shiny.png)</center>
+
+
+The barcharts show us that Sub-Saharan Africa is the least happy within each Income Class. Overall, Australia and New Zealand are the happiest. The line shows us the average happiness score of the region. Latin America and the Caribbean are the happiest for both the Upper Middle Income and Lower Middle Income. 
 
 ##*Crosstabs*
 <b>Tableau Version</b>
 <center>![vis3](../03 Visualizations/crosstab2.png)</center>
 <b>Shiny Version</b>
-<center>![vis1](../03 Visualizations/Boxplot_Shiny.png)</center>
+<center>![vis1](../03 Visualizations/crosstb_shiny.png)</center>
+
+In this visualization, things are a little reversed; as we are averaging the happiness rank, a higher rank means that a country/region is less happy on a whole. Each number is the average happiness of the countries who are in this region and whose main sector it is either industry, agriculture, or services. The sector with the lowest happiness score, on average, are the companies whose largest sector is agriculture.  The only region that has a country whose main sector is Industry is the Middle East/North Africa. 
 
 ##*Map*
 <b>Tableau Version</b>
 <center>![vis3](../03 Visualizations/Map.png)</center>
 <b>Shiny Version</b>
-<center>![vis1](../03 Visualizations/Boxplot_Shiny.png)</center>
+<center>![vis1](../03 Visualizations/map_shiny.png)</center>
+
+The maps provide shows that the regions of Africa and parts of the Middle East, Eastern Europe, and SouthEastern Asia are the least happy. Northern Europe, most of South America, and North America are largely happy. In the Shiny app you can hover over each marker to find the country and then select the marker to view the country's happiness rank and score.
 
 
