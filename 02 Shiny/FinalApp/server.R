@@ -70,7 +70,7 @@ server <- function(input, output) {
     if(input$selectedBoxplotRegions == 'All') region_list5 <- input$selectedBoxplotRegions
     else region_list5 <- append(list("Skip" = "Skip"), input$selectedBoxplotRegions)
     
-    df %>% dplyr::select(Happiness.Score, Income.Class, Region, ratio_agr, ratio_ind,ratio_serv) %>% dplyr::filter(Region %in% input$selectedBoxplotRegions | input$selectedBoxplotRegions == "All") # %>% View()
+    df %>% dplyr::select(Happiness.Score, Income.Class, Region, ratio_agr, ratio_ind,ratio_serv) %>% dplyr::filter(Region %in% input$selectedBoxplotRegions | input$selectedBoxplotRegions == "All", Income.Class != '') # %>% View()
     
   })
   
@@ -170,9 +170,8 @@ server <- function(input, output) {
       if(input$selectedRegions == 'All') region_list <- input$selectedRegions
       else region_list <- append(list("Skip" = "Skip"), input$selectedRegions)
       
-      tdf <- ddf %>% dplyr::select(Region, Income.Class, Happiness.Score, Happiness.Rank) %>% 
-        dplyr::filter(Income.Class %in% c('High Income','Upper Middle Income','Lower Middle Income','Low Income')) %>% 
-        dplyr::filter(Region %in% input$selectedRegions | input$selectedRegions == "All") %>% 
+      tdf <- df %>% dplyr::select(Region, Income.Class, Happiness.Score, Happiness.Rank) %>% 
+        dplyr::filter(Income.Class %in% c('High Income','Upper Middle Income','Lower Middle Income','Low Income'), Region %in% input$selectedRegions | input$selectedRegions == "All") %>% 
         dplyr::group_by(Income.Class, Region) %>% 
         dplyr::summarise(avg_scores = mean(Happiness.Score), avg_ranks = mean(Happiness.Rank),
                          kpi = if_else(avg_ranks <= 33, '03 Low', if_else(avg_ranks <= 67, '02 Medium', '01 High')))
@@ -180,7 +179,7 @@ server <- function(input, output) {
       # The following two lines mimic what can be done with Analytic SQL. Analytic SQL does not currently work in data.world.
       tdf2 <- tdf %>% dplyr::select(Income.Class, avg_scores) %>% 
                      dplyr::group_by(Income.Class) %>% summarise(window_avg_scores = mean(avg_scores))
-      tdf %>% dplyr::inner_join(tdf2, by = "Income.Class")
+      tdf2 %>% dplyr::inner_join(tdf, by = Income.Class)
     })
     output$barchartData1 <- renderDataTable({DT::datatable(dfbc1(),
                                                            rownames = FALSE,
