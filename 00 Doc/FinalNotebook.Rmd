@@ -2,14 +2,16 @@
 title: "<center><b>Happiness Around the World</b></center>"
 author: "<center><b>Lu, Brauchle, Kolinko</b></center>"
 output:
-  html_notebook:
-    toc: yes
   html_document:
     self_contained: no
+    toc: yes
+  html_notebook:
     toc: yes
 ---
 
 #**Introduction**
+ShinyApp Link is [Here](https://mediocredog.shinyapps.io/FinalApp/)
+
 This project shows interesting findings about the correlation between happiness (rated on a scale from 1-10) and its relationship between various employment sectors in countries around the world. 
 
 Our data was supplied from the [International Labour Organization](http://www.ilo.org/global/research/global-reports/global-employment-trends/2014/WCMS_234879/lang--en/index.htm), [Kaggle](https://www.kaggle.com/unsdsn/world-happiness),
@@ -95,5 +97,4 @@ In this visualization, things are a little reversed; as we are averaging the hap
 <center>![vis1](../03 Visualizations/map_shiny.png)</center>
 
 The maps provide shows that the regions of Africa and parts of the Middle East, Eastern Europe, and SouthEastern Asia are the least happy. Northern Europe, most of South America, and North America are largely happy. In the Shiny app you can hover over each marker to find the country and then select the marker to view the country's happiness rank and score.
-
 
