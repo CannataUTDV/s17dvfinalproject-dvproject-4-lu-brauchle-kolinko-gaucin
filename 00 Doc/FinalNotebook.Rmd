@@ -55,7 +55,38 @@ source("../01 Data/R_ETL_GET_status_sector_2012.R")
 
 
 #**The Visualizations**
-##*Substance Abuse by County*
-...
+##*Scatterplot*
+<b>Tableau Version</b>
+<center>![vis1](../03 Visualizations/Scatterplot.png)</center>
+<b>Shiny Version</b>
+<center>![vis2](../03 Visualizations/Scatterplot_Shiny.png)</center>
+These visualizations shows that as GDP increases, so does happiness. We also get an indication of the trend of each region in happiness; for example, Australia and New Zealand have a pretty horizontal line. As only two countries are involved, it shows that the disaparity between the two is not high; GDP and Happiness are quite similar for Australia and New Zealand. We also see clustering of countries in the Sub-Saharan Africa region with low happiness scores and low GDPs. Western Europe is on the opposite end of this spectrum with high happiness scores and high GDPs, though there is a fairly large disparity between the happiest country in Europe and the least happy based on the trend line. 
+
+
+##*Boxplot*
+<b>Tableau Version</b>
+<center>![vis3](../03 Visualizations/Boxplot.png)</center>
+<b>Shiny Version</b>
+<center>![vis1](../03 Visualizations/Boxplot_Shiny.png)</center>
+
+These visualizations show that Sub-Saharan Africa  has both the largest percentage of people working in the Agriculture sector and the highest variance of those working in this sector. High income regions such as North America, Western Europe, and Australia and New Zealand have the least variance within each group. Also, the sector with the largest percentage of people working within it for these countries is the Services sector with very few working in the Agriculture sector. The Middle East and Africa has large variance within each group.
+
+##*Barchart*
+<b>Tableau Version</b>
+<center>![vis3](../03 Visualizations/barchart1.png)</center>
+<b>Shiny Version</b>
+<center>![vis1](../03 Visualizations/Boxplot_Shiny.png)</center>
+
+##*Crosstabs*
+<b>Tableau Version</b>
+<center>![vis3](../03 Visualizations/crosstab2.png)</center>
+<b>Shiny Version</b>
+<center>![vis1](../03 Visualizations/Boxplot_Shiny.png)</center>
+
+##*Map*
+<b>Tableau Version</b>
+<center>![vis3](../03 Visualizations/Map.png)</center>
+<b>Shiny Version</b>
+<center>![vis1](../03 Visualizations/Boxplot_Shiny.png)</center>
 
 
