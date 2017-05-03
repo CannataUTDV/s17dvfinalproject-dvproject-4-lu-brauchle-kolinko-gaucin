@@ -10,7 +10,7 @@ output:
 ---
 
 #**Introduction**
-ShinyApp Link is [Here](https://mediocredog.shinyapps.io/FinalApp/)
+ShinyApp Link is [Here](https://luwenhui.shinyapps.io/FinalApp/)
 
 This project shows interesting findings about the correlation between happiness (rated on a scale from 1-10) and its relationship between various employment sectors in countries around the world. 
 
@@ -104,3 +104,5 @@ In this visualization, things are a little reversed; as we are averaging the hap
 
 The maps provide shows that the regions of Africa and parts of the Middle East, Eastern Europe, and SouthEastern Asia are the least happy. Northern Europe, most of South America, and North America are largely happy. In the Shiny app you can hover over each marker to find the country and then select the marker to view the country's happiness rank and score.
 
+For more infomation, checkout our shiny app: 
+https://luwenhui.shinyapps.io/FinalApp/

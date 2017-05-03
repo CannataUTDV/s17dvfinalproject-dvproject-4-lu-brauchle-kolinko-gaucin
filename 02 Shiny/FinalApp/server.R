@@ -10,10 +10,11 @@ require(plotly)
 require(lubridate)
 require(gridExtra)
 require(cowplot)
-require(plyr)
+#require(plyr)
 
 server <- function(input, output) {
     
+    #globals <- df %>% dplyr::select(Happiness.Score) %>% dplyr::distinct()
     
     tdf1 = df %>% dplyr::distinct(Region) %>% arrange(Region) %>% dplyr::rename(D = Region)
     tdf2 = df %>% dplyr::distinct(Region) %>% arrange(Region) %>% dplyr::rename(R = Region)
@@ -61,7 +62,7 @@ server <- function(input, output) {
   
   #------------Begin BoxPlot------------
     
-  online5 = reactive({input$rb5})
+  #online5 = reactive({input$rb5})
   output$boxplotRegions <- renderUI({selectInput("selectedBoxplotRegions", "Choose Regions:",
                                                  region_list5, multiple = TRUE, selected='All') })
   
@@ -158,35 +159,28 @@ server <- function(input, output) {
     })
     #------------End Map------------
   
-  # -----------Begin Barchart----------
-  tdf1 = df %>% dplyr::distinct(Region) %>% arrange(Region) %>% dplyr::rename(D = Region)
-  tdf2 = df %>% dplyr::distinct(Region) %>% arrange(Region) %>% dplyr::rename(R = Region)
-  regions = bind_cols(tdf1, tdf2)
+# -----------Begin Barchart----------
   
-  region_list <- as.list(regions$D, regions$R)
-  region_list <- append(list("All" = "All"), region_list)
   
-  ############################### Start shinyServer Function ####################
+  output$regions2 <- renderUI({selectInput("selectedRegions", "Choose regions:", region_list, multiple = TRUE, selected='All') })
     
+  ddf <- read.csv("https://query.data.world/s/1bf1rqx0f351otahiiji5vy6q", header = T)
     
-    # These widgets are for the Barcharts tab.
-    output$regions2 <- renderUI({selectInput("selectedRegions", "Choose regions:", region_list, multiple = TRUE, selected='All') })
-    
-    # Begin Barchart Tab ------------------------------------------------------------------
-    
-    dfbc1 <- eventReactive(input$click2, {
+  dfbc1 <- eventReactive(input$click2, {
       if(input$selectedRegions == 'All') region_list <- input$selectedRegions
       else region_list <- append(list("Skip" = "Skip"), input$selectedRegions)
       
-      tdf <- df %>% dplyr::select(Region, Income.Class, Happiness.Score, Happiness.Rank) %>% 
+      tdf <- ddf %>% dplyr::select(Region, Income.Class, Happiness.Score, Happiness.Rank) %>% 
         dplyr::filter(Income.Class %in% c('High Income','Upper Middle Income','Lower Middle Income','Low Income')) %>% 
+        dplyr::filter(Region %in% input$selectedRegions | input$selectedRegions == "All") %>% 
         dplyr::group_by(Income.Class, Region) %>% 
         dplyr::summarise(avg_scores = mean(Happiness.Score), avg_ranks = mean(Happiness.Rank),
                          kpi = if_else(avg_ranks <= 33, '03 Low', if_else(avg_ranks <= 67, '02 Medium', '01 High')))
       
       # The following two lines mimic what can be done with Analytic SQL. Analytic SQL does not currently work in data.world.
-      tdf2 <- tdf %>% group_by(Income.Class) %>% summarize(window_avg_scores = mean(avg_scores))
-      dplyr::inner_join(tdf, tdf2, by = "Income.Class")
+      tdf2 <- tdf %>% dplyr::select(Income.Class, avg_scores) %>% 
+                     dplyr::group_by(Income.Class) %>% summarise(window_avg_scores = mean(avg_scores))
+      tdf %>% dplyr::inner_join(tdf2, by = "Income.Class")
     })
     output$barchartData1 <- renderDataTable({DT::datatable(dfbc1(),
                                                            rownames = FALSE,
@@ -209,11 +203,10 @@ server <- function(input, output) {
     })
     
     
-    #----------Crostabs-------------
+#----------Crostabs-------------
     KPI_Low = reactive({input$KPI1})     
     KPI_Medium = reactive({input$KPI2})
     
-    # Begin Crosstab Tab ------------------------------------------------------------------
     dfabc1 <- eventReactive(input$click1, {
       
       
@@ -240,7 +233,9 @@ server <- function(input, output) {
         theme(axis.text.x=element_text(angle=90, size=12, vjust=0.5)) + 
         theme(axis.text.y=element_text(size=12, hjust=0.5))
     })
-    # begin histogram tab 
+    
+    
+# begin histogram tab 
     dfh1 <- eventReactive(input$click10, {
       df %>% select(Happiness.Score, Region)
     })

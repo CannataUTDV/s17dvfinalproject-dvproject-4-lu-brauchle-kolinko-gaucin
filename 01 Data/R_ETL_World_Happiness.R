@@ -1,9 +1,8 @@
 require(readr)
 
 # Set the Working Directory to the 00 Doc folder
-# Download the cannata/diamonds file into a folder ../../CSVs and rename the file PreETL_Diamonds.csv
-#../../ means two folders up from working directory
-file_path = "../../CSVs/PreETL_WorldHappiness.csv"
+# Download the cannata/diamonds file into a folder ../00 Doc and rename the file PreETL_WorldHappiness.csv
+file_path = "../00 Doc/PreETL_WorldHappiness.csv"
 happiness <- readr::read_csv(file_path)
 names(happiness)
 

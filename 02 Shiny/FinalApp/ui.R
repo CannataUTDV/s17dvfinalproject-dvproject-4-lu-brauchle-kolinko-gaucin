@@ -52,9 +52,9 @@ dashboardPage(skin = "black",
       tabItem(tabName = "Bplot",
               tabsetPanel(
                 tabPanel("Boxplot",  
-                         radioButtons("rb5", "Get data from:",
-                                      c("SQL" = "SQL",
-                                        "CSV" = "CSV"), inline=T),
+                         # radioButtons("rb5", "Get data from:",
+                         #              c("SQL" = "SQL",
+                         #                "CSV" = "CSV"), inline=T),
                          uiOutput("boxplotRegions"), # See http://shiny.rstudio.com/gallery/dynamic-ui.html,
                          actionButton(inputId = "click5",  label = "To get data, click here"),
                          hr(), # Add space after button.
@@ -78,10 +78,10 @@ dashboardPage(skin = "black",
       tabItem(tabName = "histogram",
               tabsetPanel(
                 tabPanel("Data",
-                         actionButton(inputId = "click10",  label = "To get data, click here"),
-                         hr(), # Add space after button.
-                         'Here is data for the "Histogram" tab',
-                         hr(),
+                         actionButton(inputId = "click10",  label = "To get data, click here"), hr(), # Add space after button.
+                         
+                         'Here is data for the "Histogram" tab', hr(),
+                         
                          DT::dataTableOutput("histogramData1")
                 ),
                 tabPanel("Histogram", plotOutput("histogramPlot1", height = 800))
@@ -98,12 +98,12 @@ dashboardPage(skin = "black",
                            actionButton(inputId = "click2",  label = "To get data, click here"), hr(), # Add space after button.
                            
                            'Here is data for the "Barchart with Table Calculation" tab', hr(),
+                           
                            DT::dataTableOutput("barchartData1")
                   ),
                   tabPanel("Barchart with Table Calculation", "Black = Average Happiness Score, Red = Average Happiness Score per Region, and  Blue = (Average Happiness Score - Average Happiness Score per Region)", plotOutput("barchartPlot1", height=1500))
                 )
         ),
-        # End Barchart tab content.
       
       # Begin Crosstab tab content.
       tabItem(tabName = "crosstab",
