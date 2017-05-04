@@ -1,5 +1,6 @@
 ---
 title: "<center><b>Happiness Around the World</b></center>"
+subtitle: <center><i>Based on Gallup World Poll</i></center>
 author: "<center><b>Lu, Brauchle, Kolinko</b></center>"
 output:
   html_document:
@@ -10,7 +11,7 @@ output:
 ---
 
 #**Introduction**
-ShinyApp Link is [Here](https://luwenhui.shinyapps.io/FinalApp/)
+ShinyApp Link is [Here](https://brauchlen.shinyapps.io/FinalApp/)
 
 This project shows interesting findings about the correlation between happiness (rated on a scale from 1-10) and its relationship between various employment sectors in countries around the world. 
 
@@ -93,7 +94,7 @@ We used happiness rank as a kpi (color), and the plot clearly shows us that the 
 <b>Shiny Version</b>
 <center>![vis9](../03 Visualizations/crosstb_shiny.png)</center>
 
-Each number is the average happiness of the countries who are in this region and whose main sector it is either industry, agriculture, or services. The sector with the lowest happiness score, on average, are the companies whose largest sector is agriculture. The only region that has a country whose main sector is Industry is the Middle East/North Africa. The color corresponds to happiness rank, it is obvious that countries whose main industry is agriculture are the least happy.
+Each number is the average happiness of the countries who are in this region and whose main sector is either industry, agriculture, or services. The sector with the lowest happiness score, on average, are the companies whose largest sector is agriculture. The only region that has a country whose main sector is Industry is the Middle East/North Africa. It is obvious that countries whose main industry is agriculture are the least happy.
 
 ##*Map*
 <b>Tableau Version</b>

@@ -91,7 +91,7 @@ server <- function(input, output) {
       ylim(0, input$boxSalesRange1[2]) +
       coord_cartesian(ylim = c(0, .5)) +
       theme(legend.title = element_blank(),legend.position = "none",axis.text.x=element_text(angle=20, size=10, vjust=0.5), axis.text.y=element_text(size = 10)) +
-      ylab("Percent in Agriculture")
+      ylab("Agr")
     
     
     p2 <- ggplot(dfbp2()) + 
@@ -99,17 +99,19 @@ server <- function(input, output) {
       
       ylim(0, input$boxSalesRange1[2]) +
       coord_cartesian(ylim = c(0, .5)) +
-      theme(legend.title = element_blank(), legend.position = "none",axis.text.x=element_text(angle=20, size=10, vjust=0.5), axis.text.y=element_text(size = 10))
+      theme(legend.title = element_blank(), legend.position = "none",axis.text.x=element_text(angle=20, size=10, vjust=0.5), axis.text.y=element_text(size = 10))+
+      ylab("Ind")
     
     
     p3 <- ggplot(dfbp2()) + 
       geom_boxplot(aes(x=Region, y=ratio_serv, fill=Income.Class)) + 
       ylim(0, input$boxSalesRange1[2]) +
       coord_cartesian(ylim = c(0, .5)) +
-      theme(legend.title = element_blank(),legend.text = element_text( size = 8),axis.text.x=element_text(angle=20, size=10, vjust=0.5), axis.text.y=element_text(size = 10))
+      theme(legend.title = element_blank(),legend.text = element_text( size = 8),axis.text.x=element_text(angle=20, size=10, vjust=0.5), axis.text.y=element_text(size = 10))+
+      ylab("Serv")
     
     
-    finalp <- subplot(p, p2, p3, nrows = 3, shareX  = TRUE, margin = 0.05, heights = c(.3, .4, .3))
+    finalp <- subplot(p, p2, p3, nrows = 3, shareX  = TRUE, margin = 0.05, heights = c(.3, .4, .3), shareY = TRUE)
     
     ggplotly(finalp, height = 10000)
   })
@@ -186,7 +188,7 @@ server <- function(input, output) {
                                                            extensions = list(Responsive = TRUE, FixedHeader = TRUE) )
     })
     
-    output$barchartPlot1 <- renderPlot({ggplot(dfbc1(), aes(x=Region, y=avg_scores, fill=HappinessRank)) +
+    output$barchartPlot1 <- renderPlot({ggplot(dfbc1(), aes(x=Region, y=avg_scores, fill=HappinessRank)) + scale_fill_discrete(name = "Happiness") + 
         scale_y_continuous(labels = scales::comma) + # no scientific notation
         theme(axis.text.x=element_text(angle=0, size=12, vjust=0.5)) + 
         theme(axis.text.y=element_text(size=12, hjust=0.5)) +
@@ -230,7 +232,7 @@ server <- function(input, output) {
         geom_text(aes(x=Region, y=MainIndustry, label=avg_scores), size=6) +
         geom_tile(aes(x=Region, y=MainIndustry, fill=HappinessRank), alpha=0.50) +
         theme(axis.text.x=element_text(angle=90, size=12, vjust=0.5)) + 
-        theme(axis.text.y=element_text(size=12, hjust=0.5))
+        theme(axis.text.y=element_text(size=12, hjust=0.5)) + scale_fill_discrete(name = "Happiness")
     })
     
     
