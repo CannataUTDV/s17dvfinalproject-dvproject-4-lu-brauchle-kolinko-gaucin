@@ -172,11 +172,12 @@ server <- function(input, output) {
       tdf <- df %>% 
         dplyr::filter(Income.Class != '', Region %in% input$selectedRegions | input$selectedRegions == "All") %>% 
         dplyr::group_by(Income.Class, Region) %>% 
-        dplyr::summarise(avg_scores = mean(Happiness.Score), avg_ranks = mean(Happiness.Rank), kpi = if_else(avg_ranks <= 33, '03 Low', if_else(avg_ranks <= 67, '02 Medium', '01 High')))
+        dplyr::summarise(avg_scores = mean(Happiness.Score), avg_ranks = mean(Happiness.Rank), HappinessRank = if_else(avg_ranks <= 33, '01 High', if_else(avg_ranks <= 67, '02 Medium', '03 Low')))
       
       # The following two lines mimic what can be done with Analytic SQL. Analytic SQL does not currently work in data.world.
       tdf2 <- tdf  %>% 
-                     dplyr::group_by(Income.Class) %>% mutate(window_avg_scores = mean(avg_scores))
+                     dplyr::group_by(Income.Class) %>% 
+                     dplyr::summarise(window_avg_scores = mean(avg_scores))
       
       tdf %>% dplyr::inner_join(tdf2, by = "Income.Class")
     })
@@ -185,7 +186,7 @@ server <- function(input, output) {
                                                            extensions = list(Responsive = TRUE, FixedHeader = TRUE) )
     })
     
-    output$barchartPlot1 <- renderPlot({ggplot(dfbc1(), aes(x=Region.x, y=avg_scores.x, fill=kpi.x)) +
+    output$barchartPlot1 <- renderPlot({ggplot(dfbc1(), aes(x=Region, y=avg_scores, fill=HappinessRank)) +
         scale_y_continuous(labels = scales::comma) + # no scientific notation
         theme(axis.text.x=element_text(angle=0, size=12, vjust=0.5)) + 
         theme(axis.text.y=element_text(size=12, hjust=0.5)) +
@@ -193,8 +194,8 @@ server <- function(input, output) {
         facet_wrap(~Income.Class, ncol=1) + 
         coord_flip() + 
         # Add sum_sales, and (sum_sales - window_avg_sales) label.
-        geom_text(mapping=aes(x=Region.x, y=avg_scores.x, label=round(avg_scores.x)),colour="black", hjust=-.5) +
-        geom_text(mapping=aes(x=Region.x, y=avg_scores.x, label=round(avg_scores.x - window_avg_scores)),colour="blue", hjust=-2) +
+        geom_text(mapping=aes(x=Region, y=avg_scores, label=round(avg_scores)),colour="black", hjust=-.5) +
+        geom_text(mapping=aes(x=Region, y=avg_scores, label=round(avg_scores - window_avg_scores)),colour="blue", hjust=-2) +
         # Add reference line with a label.
         geom_hline(aes(yintercept = round(window_avg_scores)), color="red") +
         geom_text(aes( -1, window_avg_scores, label = window_avg_scores, vjust = -.5, hjust = -.25), color="red")
@@ -202,8 +203,8 @@ server <- function(input, output) {
     
     
 #----------Crostabs-------------
-    KPI_Low = reactive({input$KPI1})     
-    KPI_Medium = reactive({input$KPI2})
+    Rank_High = reactive({input$KPI1})     
+    Rank_Medium = reactive({input$KPI2})
     
     dfabc1 <- eventReactive(input$click1, {
       
@@ -218,7 +219,7 @@ server <- function(input, output) {
       dff2 %>% dplyr::select(Region, Happiness.Score, Happiness.Rank, MainIndustry) %>% 
         dplyr::group_by(MainIndustry, Region) %>% 
         dplyr::summarise(avg_scores = round(mean(Happiness.Score),2), avg_ranks = round(mean(Happiness.Rank),2), 
-                         kpi = if_else(avg_ranks <= KPI_Low(), '03 Low', if_else(avg_ranks <= KPI_Medium(), '02 Medium', '01 High')))
+                         HappinessRank = if_else(avg_ranks <= Rank_High(), '01 High', if_else(avg_ranks <= Rank_Medium(), '02 Medium', '03 Low')))
     })
     
     output$data10 <- renderDataTable({DT::datatable(dfabc1(), rownames = FALSE,
@@ -227,7 +228,7 @@ server <- function(input, output) {
     
     output$plot10 <- renderPlot({ggplot(dfabc1()) + 
         geom_text(aes(x=Region, y=MainIndustry, label=avg_scores), size=6) +
-        geom_tile(aes(x=Region, y=MainIndustry, fill=kpi), alpha=0.50) +
+        geom_tile(aes(x=Region, y=MainIndustry, fill=HappinessRank), alpha=0.50) +
         theme(axis.text.x=element_text(angle=90, size=12, vjust=0.5)) + 
         theme(axis.text.y=element_text(size=12, hjust=0.5))
     })

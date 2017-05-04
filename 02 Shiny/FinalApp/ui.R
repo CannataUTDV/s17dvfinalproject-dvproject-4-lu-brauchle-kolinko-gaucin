@@ -109,10 +109,10 @@ dashboardPage(skin = "black",
       tabItem(tabName = "crosstab",
               tabsetPanel(
                 tabPanel("Data",  
-                         sliderInput("KPI1", "KPI_Low:", 
-                                     min = 0, max = 50,  value = 33),
-                         sliderInput("KPI2", "KPI_Medium:", 
-                                     min = 50.1, max = 100,  value = 67),
+                         sliderInput("KPI1", "Rank_High:", 
+                                     min = 9, max = 70,  value = 50),
+                         sliderInput("KPI2", "Rank_Medium:", 
+                                     min = 70.1, max = 136,  value = 71),
                          actionButton(inputId = "click1",  label = "To get data, click here"),
                          hr(), # Add space after button.
                          DT::dataTableOutput("data10")

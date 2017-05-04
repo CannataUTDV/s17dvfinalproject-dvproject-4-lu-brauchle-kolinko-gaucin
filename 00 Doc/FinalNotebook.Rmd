@@ -85,8 +85,7 @@ These visualizations show that Sub-Saharan Africa  has both the largest percenta
 <b>Shiny Version</b>
 <center>![vis7](../03 Visualizations/barchart_shiny.png)</center>
 
-
-The barcharts show us that Sub-Saharan Africa is the least happy within each Income Class. Overall, Australia and New Zealand are the happiest. The line shows us the average happiness score of the region. Latin America and the Caribbean are the happiest for both the Upper Middle Income and Lower Middle Income. 
+We used happiness rank as a kpi (color), and the plot clearly shows us that the richer a country is, no matter which region it is in, it is happier than other countries. We can see the average happiness scores in the black texts. The barcharts show us that Sub-Saharan Africa is the least happy within each income class. Overall, Australia and New Zealand are the happiest. The lines show us the average happiness score of the region. Latin America and the Caribbean are the happiest for both the Upper Middle Income and Lower Middle Income. 
 
 ##*Crosstabs*
 <b>Tableau Version</b>
@@ -94,7 +93,7 @@ The barcharts show us that Sub-Saharan Africa is the least happy within each Inc
 <b>Shiny Version</b>
 <center>![vis9](../03 Visualizations/crosstb_shiny.png)</center>
 
-In this visualization, things are a little reversed; as we are averaging the happiness rank, a higher rank means that a country/region is less happy on a whole. Each number is the average happiness of the countries who are in this region and whose main sector it is either industry, agriculture, or services. The sector with the lowest happiness score, on average, are the companies whose largest sector is agriculture.  The only region that has a country whose main sector is Industry is the Middle East/North Africa. 
+Each number is the average happiness of the countries who are in this region and whose main sector it is either industry, agriculture, or services. The sector with the lowest happiness score, on average, are the companies whose largest sector is agriculture. The only region that has a country whose main sector is Industry is the Middle East/North Africa. The color corresponds to happiness rank, it is obvious that countries whose main industry is agriculture are the least happy.
 
 ##*Map*
 <b>Tableau Version</b>
